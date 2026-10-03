@@ -7,7 +7,11 @@ HISTORY_FILE = Path("history.json")
 MIN_TRAINING_DRAWS = 300
 BLOCK_SIZE = 200
 
-WINDOWS = [50, 100]
+WINDOW_SHORT = 50
+WINDOW_LONG = 100
+
+BLEND_SHORT_WEIGHT = 0.50
+BLEND_LONG_WEIGHT = 0.50
 
 
 def load_history():
@@ -20,7 +24,10 @@ def load_history():
 def calculate_recent_frequency(history, window):
     recent = history[-window:]
 
-    frequency = {number: 0 for number in range(1, 36)}
+    frequency = {
+        number: 0
+        for number in range(1, 36)
+    }
 
     for record in recent:
         for number in record["numbers"]:
@@ -29,20 +36,39 @@ def calculate_recent_frequency(history, window):
     return frequency
 
 
-def weighted_sample(frequency, window):
+def build_weights(frequency, window):
     expected = window * 5 / 35
 
-    weights = {}
+    return {
+        number: max(
+            frequency[number] / expected,
+            0.01
+        )
+        for number in range(1, 36)
+    }
 
-    for number in range(1, 36):
-        ratio = frequency[number] / expected
-        weights[number] = max(ratio, 0.01)
 
+def blend_weights(short_weights, long_weights):
+    return {
+        number: (
+            BLEND_SHORT_WEIGHT
+            * short_weights[number]
+            +
+            BLEND_LONG_WEIGHT
+            * long_weights[number]
+        )
+        for number in range(1, 36)
+    }
+
+
+def weighted_sample(weights):
     available = dict(weights)
     selected = []
 
     for _ in range(5):
-        total_weight = sum(available.values())
+        total_weight = sum(
+            available.values()
+        )
 
         target = (
             secrets.randbelow(10_000_000)
@@ -68,56 +94,117 @@ def random_sample():
     selected = []
 
     while len(selected) < 5:
-        index = secrets.randbelow(len(numbers))
-        selected.append(numbers.pop(index))
+        index = secrets.randbelow(
+            len(numbers)
+        )
+
+        selected.append(
+            numbers.pop(index)
+        )
 
     return sorted(selected)
 
 
 def count_matches(prediction, actual):
-    return len(set(prediction) & set(actual))
+    return len(
+        set(prediction) &
+        set(actual)
+    )
 
 
-def evaluate_block(history, start, end, random_predictions):
+def evaluate_block(
+    history,
+    start,
+    end,
+    random_predictions
+):
     results = {
-        window: []
-        for window in WINDOWS
+        "random": [],
+        "50": [],
+        "100": [],
+        "blend": []
     }
 
-    random_results = []
-
-    for position, index in enumerate(range(start, end)):
+    for position, index in enumerate(
+        range(start, end)
+    ):
         training = history[:index]
         actual = history[index]["numbers"]
 
-        random_prediction = random_predictions[position]
+        random_prediction = (
+            random_predictions[position]
+        )
 
-        random_results.append(
+        results["random"].append(
             count_matches(
                 random_prediction,
                 actual
             )
         )
 
-        for window in WINDOWS:
-            frequency = calculate_recent_frequency(
+        short_frequency = (
+            calculate_recent_frequency(
                 training,
-                window
+                WINDOW_SHORT
             )
+        )
 
-            prediction = weighted_sample(
-                frequency,
-                window
+        long_frequency = (
+            calculate_recent_frequency(
+                training,
+                WINDOW_LONG
             )
+        )
 
-            results[window].append(
-                count_matches(
-                    prediction,
-                    actual
-                )
+        short_weights = build_weights(
+            short_frequency,
+            WINDOW_SHORT
+        )
+
+        long_weights = build_weights(
+            long_frequency,
+            WINDOW_LONG
+        )
+
+        prediction_50 = weighted_sample(
+            short_weights
+        )
+
+        prediction_100 = weighted_sample(
+            long_weights
+        )
+
+        blended = blend_weights(
+            short_weights,
+            long_weights
+        )
+
+        prediction_blend = weighted_sample(
+            blended
+        )
+
+        results["50"].append(
+            count_matches(
+                prediction_50,
+                actual
             )
+        )
 
-    return results, random_results
+        results["100"].append(
+            count_matches(
+                prediction_100,
+                actual
+            )
+        )
+
+        results["blend"].append(
+            count_matches(
+                prediction_blend,
+                actual
+            )
+        )
+
+    return results
 
 
 def average(values):
@@ -130,11 +217,18 @@ def average(values):
 def main():
     history = load_history()
 
-    if len(history) < MIN_TRAINING_DRAWS + BLOCK_SIZE:
-        print("ERROR: Không đủ dữ liệu để Walk-forward Validation.")
+    if len(history) < (
+        MIN_TRAINING_DRAWS + BLOCK_SIZE
+    ):
+        print(
+            "ERROR: Không đủ dữ liệu "
+            "để chạy Backtest V7."
+        )
         return
 
-    latest_possible_start = len(history) - BLOCK_SIZE
+    latest_possible_start = (
+        len(history) - BLOCK_SIZE
+    )
 
     block_starts = [
         MIN_TRAINING_DRAWS,
@@ -146,31 +240,40 @@ def main():
         set(
             start
             for start in block_starts
-            if start + BLOCK_SIZE <= len(history)
+            if start + BLOCK_SIZE
+            <= len(history)
         )
     )
 
-    print("=" * 55)
-    print("LOKA-535 BACKTEST V6")
-    print("WALK-FORWARD VALIDATION")
-    print("=" * 55)
+    overall = {
+        "random": [],
+        "50": [],
+        "100": [],
+        "blend": []
+    }
 
-    print(f"Tổng dữ liệu: {len(history)} kỳ")
-    print(f"Kích thước mỗi block: {BLOCK_SIZE} kỳ")
-    print(f"Cửa sổ kiểm tra: {WINDOWS}")
+    print("=" * 60)
+    print("LOKA-535 BACKTEST V7")
+    print("BLEND 50/100")
+    print("=" * 60)
+
+    print(
+        f"Tổng dữ liệu: {len(history)} kỳ"
+    )
+
+    print(
+        f"Block: {BLOCK_SIZE} kỳ"
+    )
+
+    print(
+        "Mô hình: Random / 50 / 100 / Blend 50-50"
+    )
 
     print()
     print(
-        "Mỗi block chỉ sử dụng dữ liệu xuất hiện "
-        "trước kỳ dự đoán."
+        "Blend = 50% trọng số 50 kỳ "
+        "+ 50% trọng số 100 kỳ."
     )
-
-    overall_results = {
-        window: []
-        for window in WINDOWS
-    }
-
-    overall_random = []
 
     for block_number, start in enumerate(
         block_starts,
@@ -183,48 +286,39 @@ def main():
 
         block_length = end - start
 
-        if block_length <= 0:
-            continue
-
         random_predictions = [
             random_sample()
             for _ in range(block_length)
         ]
 
-        results, random_results = evaluate_block(
+        results = evaluate_block(
             history,
             start,
             end,
             random_predictions
         )
 
-        random_average = average(
-            random_results
-        )
-
-        overall_random.extend(
-            random_results
-        )
-
         print()
-        print("=" * 55)
+        print("=" * 60)
         print(f"BLOCK {block_number}")
-        print("=" * 55)
+        print("=" * 60)
 
         print(
-            f"Test từ index {start} đến {end - 1}"
-        )
-        print(
-            f"Số kỳ kiểm tra: {block_length}"
+            f"Test index: {start} → {end - 1}"
         )
 
-        print(
-            f"Random: {random_average:.4f}"
-        )
-
-        for window in WINDOWS:
+        for model in [
+            "random",
+            "50",
+            "100",
+            "blend"
+        ]:
             model_average = average(
-                results[window]
+                results[model]
+            )
+
+            random_average = average(
+                results["random"]
             )
 
             difference = (
@@ -232,59 +326,64 @@ def main():
                 - random_average
             )
 
-            overall_results[window].extend(
-                results[window]
+            if model == "random":
+                print(
+                    f"Random : "
+                    f"{model_average:.4f}"
+                )
+            else:
+                print(
+                    f"{model:>6} : "
+                    f"{model_average:.4f} "
+                    f"({difference:+.4f})"
+                )
+
+            overall[model].extend(
+                results[model]
             )
 
-            print(
-                f"{window:3d} kỳ: "
-                f"{model_average:.4f} "
-                f"({difference:+.4f})"
-            )
-
-    overall_random_average = average(
-        overall_random
+    random_overall = average(
+        overall["random"]
     )
 
     print()
-    print("=" * 55)
+    print("=" * 60)
     print("TỔNG HỢP TẤT CẢ BLOCK")
-    print("=" * 55)
+    print("=" * 60)
 
     print(
-        f"Random: "
-        f"{overall_random_average:.4f}"
+        f"Random : "
+        f"{random_overall:.4f}"
     )
 
-    for window in WINDOWS:
+    for model in [
+        "50",
+        "100",
+        "blend"
+    ]:
         model_average = average(
-            overall_results[window]
+            overall[model]
         )
 
         difference = (
             model_average
-            - overall_random_average
+            - random_overall
         )
 
         print(
-            f"{window:3d} kỳ: "
+            f"{model:>6} : "
             f"{model_average:.4f} "
             f"({difference:+.4f})"
         )
 
     print()
-    print("=" * 55)
-    print("LƯU Ý")
-    print("=" * 55)
+    print("=" * 60)
+    print("KẾT THÚC V7")
+    print("=" * 60)
 
     print(
-        "Backtest không chứng minh rằng mô hình "
-        "có thể dự đoán kết quả xổ số."
-    )
-
-    print(
-        "Mục tiêu của kiểm định là tìm xem tín hiệu "
-        "lịch sử có ổn định hơn Random hay không."
+        "Backtest chỉ đánh giá tín hiệu lịch sử, "
+        "không chứng minh khả năng dự đoán xổ số."
     )
 
 
