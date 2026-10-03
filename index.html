@@ -3,544 +3,966 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOKA 535</title>
+<title>LOKA 5/35</title>
 <style>
-*{
-  box-sizing:border-box;
+/* =========================
+   GLOBAL
+========================= */
+* {
+    box-sizing: border-box;
 }
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:linear-gradient(180deg,#fff4e8,#ffe5d5);
-  color:#583f52;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    background:
+        radial-gradient(
+            circle at top,
+            #ffffff 0%,
+            #f4f7e9 45%,
+            #e9f0df 100%
+        );
+    color: #35513d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.app{
-  width:min(94%,520px);
-  text-align:center;
-  padding:25px 18px 35px;
+.container {
+    width: 100%;
+    max-width: 430px;
+    padding: 24px 18px 35px;
+    text-align: center;
 }
-.title{
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:3px;
-  color:#a25b72;
+/* =========================
+   TITLE
+========================= */
+h1 {
+    margin: 0;
+    font-size: 29px;
+    font-weight: 800;
+    color: #3f7d58;
+    letter-spacing: 1px;
 }
-h1{
-  margin:8px 0 5px;
-  font-size:30px;
-  color:#7d405d;
+.subtitle {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #7b927d;
 }
-.sub{
-  font-size:13px;
-  opacity:.7;
-  margin-bottom:22px;
+/* =========================
+   CAT AREA
+========================= */
+.cat-area {
+    position: relative;
+    width: 220px;
+    height: 230px;
+    margin: 20px auto 5px;
 }
-/* MÈO */
-.cat{
-  width:145px;
-  height:125px;
-  margin:0 auto 18px;
-  position:relative;
-  animation:float 2s ease-in-out infinite;
+/* =========================
+   CAT
+========================= */
+.cat {
+    position: absolute;
+    width: 150px;
+    height: 128px;
+    left: 28px;
+    top: 48px;
+    background: #d9b66f;
+    border: 3px solid #8a6a3d;
+    border-radius:
+        48%
+        48%
+        42%
+        42%;
+    z-index: 2;
+    transition:
+        transform 0.2s ease;
 }
-.head{
-  position:absolute;
-  width:115px;
-  height:95px;
-  left:15px;
-  top:20px;
-  background:#fff;
-  border-radius:48% 48% 45% 45%;
-  border:4px solid #d98c72;
+/* ears */
+.cat::before,
+.cat::after {
+    content: "";
+    position: absolute;
+    top: -28px;
+    width: 43px;
+    height: 43px;
+    background: #d9b66f;
+    border: 3px solid #8a6a3d;
+    transform: rotate(45deg);
+    z-index: -1;
 }
-.ear{
-  position:absolute;
-  width:38px;
-  height:38px;
-  background:#fff;
-  border:4px solid #d98c72;
-  top:5px;
+.cat::before {
+    left: 8px;
 }
-.ear.left{
-  left:18px;
-  transform:rotate(-25deg);
-  border-radius:8px 25px 5px 25px;
+.cat::after {
+    right: 8px;
 }
-.ear.right{
-  right:18px;
-  transform:rotate(25deg);
-  border-radius:25px 8px 25px 5px;
+/* inner ears */
+.cat-ear {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #9dbb7d;
+    transform: rotate(45deg);
+    top: -14px;
+    border-radius: 4px;
 }
-.eye{
-  position:absolute;
-  width:11px;
-  height:16px;
-  background:#4e3847;
-  border-radius:50%;
-  top:48px;
+.cat-ear.left {
+    left: 20px;
 }
-.eye.left{
-  left:32px;
+.cat-ear.right {
+    right: 20px;
 }
-.eye.right{
-  right:32px;
+/* eyes */
+.eye {
+    position: absolute;
+    width: 11px;
+    height: 15px;
+    background: #35513d;
+    border-radius: 50%;
+    top: 38px;
 }
-.cheek{
-  position:absolute;
-  width:18px;
-  height:10px;
-  background:#f4a4a4;
-  border-radius:50%;
-  top:65px;
+.eye.left {
+    left: 42px;
 }
-.cheek.left{
-  left:14px;
+.eye.right {
+    right: 42px;
 }
-.cheek.right{
-  right:14px;
+/* cheeks */
+.cheek {
+    position: absolute;
+    width: 25px;
+    height: 12px;
+    background: #d99178;
+    border-radius: 50%;
+    top: 64px;
 }
-.nose{
-  position:absolute;
-  width:10px;
-  height:8px;
-  background:#e47e91;
-  border-radius:50%;
-  left:49px;
-  top:64px;
+.cheek.left {
+    left: 11px;
 }
-.mouth{
-  position:absolute;
-  width:28px;
-  height:17px;
-  left:43px;
-  top:70px;
-  border-bottom:4px solid #5b3b4b;
-  border-radius:50%;
+.cheek.right {
+    right: 11px;
 }
-.paw{
-  position:absolute;
-  width:42px;
-  height:50px;
-  background:#fff;
-  border:4px solid #d98c72;
-  border-radius:50%;
-  right:-3px;
-  top:30px;
-  transform:rotate(-18deg);
-  transform-origin:bottom center;
+/* nose */
+.nose {
+    position: absolute;
+    width: 12px;
+    height: 9px;
+    background: #bd725f;
+    border-radius: 50%;
+    top: 61px;
+    left: 50%;
+    transform:
+        translateX(-50%);
 }
-.cat.spinning .paw{
-  animation:wave .25s infinite alternate;
+/* =========================
+   MOUTH
+========================= */
+.mouth {
+    position: absolute;
+    width: 30px;
+    height: 17px;
+    left: 50%;
+    top: 69px;
+    transform:
+        translateX(-50%);
+    border-bottom:
+        3px solid #5d513d;
+    border-radius: 50%;
+    transition:
+        height 0.15s ease,
+        border-radius 0.15s ease;
 }
-.bell{
-  position:absolute;
-  width:25px;
-  height:20px;
-  background:#f4c44e;
-  border:3px solid #d39b28;
-  border-radius:50%;
-  left:45px;
-  bottom:0;
+/*
+   Khi mèo nhả số,
+   miệng mở rộng nhẹ.
+*/
+.cat.spitting .mouth {
+    height: 24px;
+    border-radius:
+        0 0 50% 50%;
 }
-@keyframes float{
-  50%{transform:translateY(-5px)}
+/* =========================
+   PAW
+========================= */
+.paw {
+    position: absolute;
+    width: 43px;
+    height: 70px;
+    right: -23px;
+    top: 3px;
+    background: #d9b66f;
+    border:
+        3px solid #8a6a3d;
+    border-radius: 50%;
+    transform:
+        rotate(-25deg);
 }
-@keyframes wave{
-  from{transform:rotate(-25deg)}
-  to{transform:rotate(20deg)}
+/* =========================
+   GOLD COIN
+========================= */
+.coin {
+    position: absolute;
+    width: 47px;
+    height: 47px;
+    right: -10px;
+    bottom: -14px;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle,
+            #fff0a8 0%,
+            #d8a83e 65%,
+            #b78325 100%
+        );
+    border:
+        3px solid #a87924;
+    color: #8b651e;
+    font-size: 20px;
+    font-weight: 800;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform:
+        rotate(-10deg);
+    z-index: 4;
 }
-/* SỐ */
-.numbers{
-  display:flex;
-  justify-content:center;
-  gap:9px;
-  flex-wrap:wrap;
-  min-height:65px;
+/* =========================
+   SPIT BALL
+========================= */
+/*
+   Đây là viên số bay ra từ miệng.
+*/
+.spit-ball {
+    position: absolute;
+    left: 50%;
+    top: 111px;
+    width: 32px;
+    height: 32px;
+    margin-left: -16px;
+    border-radius: 50%;
+    background: #3f7d58;
+    border:
+        2px solid #28563a;
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
 }
-.ball{
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:#f29bad;
-  color:white;
-  font-size:21px;
-  font-weight:900;
-  box-shadow:0 5px 12px #9b5b6b44;
+/*
+   Viên số bay từ miệng
+   xuống khu vực kết quả.
+*/
+.spit-ball.fly {
+    animation:
+        spitNumber
+        0.55s
+        cubic-bezier(.2,.75,.25,1)
+        forwards;
 }
-.ball.show{
-  animation:pop .25s ease-out;
+@keyframes spitNumber {
+    0% {
+        opacity: 0;
+        transform:
+            translate(
+                0px,
+                0px
+            )
+            scale(.45);
+    }
+    15% {
+        opacity: 1;
+        transform:
+            translate(
+                0px,
+                -5px
+            )
+            scale(.75);
+    }
+    65% {
+        opacity: 1;
+        transform:
+            translate(
+                0px,
+                62px
+            )
+            scale(1.05);
+    }
+    85% {
+        opacity: 1;
+        transform:
+            translate(
+                0px,
+                78px
+            )
+            scale(.95);
+    }
+    100% {
+        opacity: 0;
+        transform:
+            translate(
+                0px,
+                88px
+            )
+            scale(.75);
+    }
 }
-@keyframes pop{
-  0%{transform:scale(.5)}
-  80%{transform:scale(1.12)}
-  100%{transform:scale(1)}
+/* =========================
+   RESULT
+========================= */
+.result {
+    margin-top: 2px;
 }
-.special-box{
-  margin-top:20px;
+.label {
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #7b927d;
+    font-weight: 600;
 }
-.special-label{
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:2px;
-  margin-bottom:8px;
-  opacity:.7;
+.numbers {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
 }
-.special{
-  width:78px;
-  height:78px;
-  margin:auto;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:#f4bd55;
-  color:white;
-  font-size:28px;
-  font-weight:900;
-  box-shadow:0 7px 16px #a8783544;
+.number-ball,
+.special {
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    font-size: 17px;
+    opacity: 0;
+    transform:
+        scale(.7);
 }
-.status{
-  min-height:25px;
-  margin:20px 0 13px;
-  font-size:13px;
-  font-weight:800;
+/* main numbers */
+.number-ball {
+    background:
+        linear-gradient(
+            145deg,
+            #5f9a70,
+            #3f7d58
+        );
+    color: white;
+    box-shadow:
+        0 4px 10px
+        rgba(63,125,88,.20);
 }
-button{
-  border:0;
-  background:#7d405d;
-  color:white;
-  border-radius:999px;
-  padding:15px 42px;
-  font-size:17px;
-  font-weight:900;
-  box-shadow:0 6px 0 #562d40;
-  cursor:pointer;
+/* special */
+.special {
+    margin: 12px auto 0;
+    background:
+        linear-gradient(
+            145deg,
+            #efd27b,
+            #d8a83e
+        );
+    color: #70521a;
+    box-shadow:
+        0 4px 10px
+        rgba(216,168,62,.25);
 }
-button:active{
-  transform:translateY(4px);
-  box-shadow:0 2px 0 #562d40;
+/* result appearance */
+.number-ball.show,
+.special.show {
+    animation:
+        resultAppear
+        .4s
+        ease-out
+        forwards;
 }
-.info{
-  margin-top:18px;
-  font-size:11px;
-  line-height:1.6;
-  opacity:.65;
+@keyframes resultAppear {
+    0% {
+        opacity: 0;
+        transform:
+            scale(.55)
+            translateY(8px);
+    }
+    55% {
+        opacity: 1;
+        transform:
+            scale(1.08)
+            translateY(-2px);
+    }
+    100% {
+        opacity: 1;
+        transform:
+            scale(1)
+            translateY(0);
+    }
 }
-.error{
-  color:#b52e2e;
-  font-weight:800;
+/* =========================
+   BUTTON
+========================= */
+button {
+    margin-top: 24px;
+    padding:
+        14px 34px;
+    border: none;
+    border-radius: 15px;
+    background:
+        linear-gradient(
+            135deg,
+            #4e8d64,
+            #3f7d58
+        );
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow:
+        0 7px 18px
+        rgba(63,125,88,.23);
+    transition:
+        transform .15s ease;
+}
+button:active {
+    transform:
+        scale(.96);
+}
+button:disabled {
+    opacity: .5;
+    cursor: default;
+}
+/* =========================
+   STATUS
+========================= */
+#status {
+    margin-top: 14px;
+    min-height: 20px;
+    font-size: 13px;
+    color: #7b927d;
+}
+/* =========================
+   INFO
+========================= */
+.info {
+    margin-top: 18px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #8a998a;
 }
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="title">✦ LOKA 535 ✦</div>
-  <h1>Mèo thần tài</h1>
-  <div class="sub">
-    Lotto 5/35 · Một bộ số tham khảo
-  </div>
-  <!-- MÈO -->
-  <div class="cat" id="cat">
-    <div class="ear left"></div>
-    <div class="ear right"></div>
-    <div class="head">
-      <div class="eye left"></div>
-      <div class="eye right"></div>
-      <div class="cheek left"></div>
-      <div class="cheek right"></div>
-      <div class="nose"></div>
-      <div class="mouth"></div>
+<div class="container">
+    <h1>LOKA 5/35</h1>
+    <div class="subtitle">
+        Mèo may mắn chọn số 🐱🍀
     </div>
-    <div class="paw"></div>
-    <div class="bell"></div>
-  </div>
-  <!-- 5 SỐ -->
-  <div class="numbers" id="numbers">
-    <div class="ball">?</div>
-    <div class="ball">?</div>
-    <div class="ball">?</div>
-    <div class="ball">?</div>
-    <div class="ball">?</div>
-  </div>
-  <!-- SỐ ĐẶC BIỆT -->
-  <div class="special-box">
-    <div class="special-label">
-      SỐ ĐẶC BIỆT
+    <!-- =====================
+         CAT
+    ====================== -->
+    <div class="cat-area">
+        <div class="cat" id="cat">
+            <div class="cat-ear left"></div>
+            <div class="cat-ear right"></div>
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="cheek left"></div>
+            <div class="cheek right"></div>
+            <div class="nose"></div>
+            <div class="mouth"></div>
+            <div class="paw"></div>
+            <div class="coin">
+                ¥
+            </div>
+        </div>
+        <!--
+           Viên số bay ra khỏi miệng.
+           JavaScript chỉ thay số và bật class fly.
+        -->
+        <div
+            class="spit-ball"
+            id="spitBall">
+        </div>
     </div>
-    <div class="special" id="special">
-      ?
+    <!-- =====================
+         RESULT
+    ====================== -->
+    <div class="result">
+        <div class="label">
+            BỘ SỐ THAM KHẢO
+        </div>
+        <div class="numbers">
+            <div
+                class="number-ball"
+                id="n1">
+            </div>
+            <div
+                class="number-ball"
+                id="n2">
+            </div>
+            <div
+                class="number-ball"
+                id="n3">
+            </div>
+            <div
+                class="number-ball"
+                id="n4">
+            </div>
+            <div
+                class="number-ball"
+                id="n5">
+            </div>
+        </div>
+        <div
+            class="label"
+            style="margin-top:18px;">
+            SỐ ĐẶC BIỆT
+        </div>
+        <div
+            class="special"
+            id="special">
+        </div>
     </div>
-  </div>
-  <div class="status" id="status">
-    Mèo thần tài đang chờ Loka ✨
-  </div>
-  <button id="btn">
-    QUAY SỐ
-  </button>
-  <div class="info">
-    Dữ liệu lịch sử được đọc từ history.json.<br>
-    Bộ số được chọn bằng weighted random từ tần suất 50 và 100 kỳ gần nhất.
-  </div>
+    <button id="button">
+        QUAY SỐ
+    </button>
+    <div id="status">
+        Đang tải dữ liệu...
+    </div>
+    <div class="info">
+        Dữ liệu 50 kỳ và 100 kỳ gần nhất.
+        Trọng số được kết hợp 50/50 rồi
+        chọn ngẫu nhiên.
+    </div>
 </div>
 <script>
-const balls = document.querySelectorAll(".ball");
-const special = document.getElementById("special");
-const button = document.getElementById("btn");
-const status = document.getElementById("status");
-const cat = document.getElementById("cat");
+/* =========================
+   DATA
+========================= */
 let history = [];
 /* =========================
-   ĐỌC DỮ LIỆU
+   ELEMENTS
 ========================= */
-async function loadHistory(){
-  const response = await fetch(
-    "history.json?cache=" + Date.now()
-  );
-  if(!response.ok){
-    throw new Error("Không đọc được history.json");
-  }
-  const data = await response.json();
-  if(!Array.isArray(data) || data.length === 0){
-    throw new Error("history.json không có dữ liệu");
-  }
-  return data;
+const button =
+    document.getElementById("button");
+const status =
+    document.getElementById("status");
+const cat =
+    document.getElementById("cat");
+const spitBall =
+    document.getElementById("spitBall");
+const balls = [
+    document.getElementById("n1"),
+    document.getElementById("n2"),
+    document.getElementById("n3"),
+    document.getElementById("n4"),
+    document.getElementById("n5")
+];
+const specialBall =
+    document.getElementById("special");
+/* =========================
+   SECURE RANDOM
+========================= */
+function random() {
+    const array =
+        new Uint32Array(1);
+    crypto.getRandomValues(array);
+    return array[0] /
+        4294967296;
 }
 /* =========================
-   RANDOM AN TOÀN
+   FREQUENCY
 ========================= */
-function random(){
-  const array = new Uint32Array(1);
-  crypto.getRandomValues(array);
-  return array[0] / 4294967296;
-}
-/* =========================
-   TÍNH TẦN SUẤT
-========================= */
-function frequency(records, max, specialMode){
-  const freq = Array(max + 1).fill(0);
-  for(const draw of records){
-    const values = specialMode
-      ? [Number(draw.special)]
-      : draw.numbers.map(Number);
-    for(const n of values){
-      if(n >= 1 && n <= max){
-        freq[n]++;
-      }
-    }
-  }
-  return freq;
-}
-/* =========================
-   TẠO TRỌNG SỐ
-========================= */
-function makeWeights(records, max, specialMode){
-  const freq = frequency(
+function frequency(
     records,
     max,
-    specialMode
-  );
-  const expected = specialMode
-    ? records.length / max
-    : records.length * 5 / max;
-  const weights = [];
-  for(let n = 1; n <= max; n++){
-    const weight =
-      Math.max(
-        freq[n] / expected,
-        0.01
-      );
-    weights.push(weight);
-  }
-  return weights;
-}
-/* =========================
-   LẤY 1 SỐ THEO TRỌNG SỐ
-========================= */
-function weightedPick(items, weights){
-  let total = 0;
-  for(const w of weights){
-    total += w;
-  }
-  let r = random() * total;
-  for(let i = 0; i < items.length; i++){
-    r -= weights[i];
-    if(r <= 0){
-      return items[i];
+    specialMode = false
+) {
+    const freq =
+        Array(max + 1).fill(0);
+    for (const record of records) {
+        if (specialMode) {
+            const value =
+                Number(record.special);
+            if (
+                value >= 1 &&
+                value <= max
+            ) {
+                freq[value]++;
+            }
+        } else {
+            for (
+                const value
+                of record.numbers
+            ) {
+                const n =
+                    Number(value);
+                if (
+                    n >= 1 &&
+                    n <= max
+                ) {
+                    freq[n]++;
+                }
+            }
+        }
     }
-  }
-  return items[items.length - 1];
+    return freq;
 }
 /* =========================
-   CHỌN 5 SỐ
+   WEIGHTS
 ========================= */
-function generateMain(){
-  const recent50 =
-    history.slice(-50);
-  const recent100 =
-    history.slice(-100);
-  const w50 =
-    makeWeights(
-      recent50,
-      35,
-      false
-    );
-  const w100 =
-    makeWeights(
-      recent100,
-      35,
-      false
-    );
-  const numbers = [];
-  const available = [];
-  const weights = [];
-  for(let n = 1; n <= 35; n++){
-    available.push(n);
-    weights.push(
-      w50[n - 1] * 0.5 +
-      w100[n - 1] * 0.5
-    );
-  }
-  while(numbers.length < 5){
-    const selected =
-      weightedPick(
-        available,
-        weights
-      );
-    numbers.push(selected);
-    const index =
-      available.indexOf(selected);
-    available.splice(index,1);
-    weights.splice(index,1);
-  }
-  return numbers.sort(
-    (a,b) => a-b
-  );
+function makeWeights(
+    records,
+    max,
+    specialMode = false
+) {
+    const freq =
+        frequency(
+            records,
+            max,
+            specialMode
+        );
+    const expected =
+        specialMode
+            ? records.length / max
+            : (
+                records.length * 5
+            ) / max;
+    const weights =
+        Array(max + 1).fill(0);
+    for (
+        let i = 1;
+        i <= max;
+        i++
+    ) {
+        weights[i] =
+            Math.max(
+                freq[i] / expected,
+                0.01
+            );
+    }
+    return weights;
 }
 /* =========================
-   CHỌN SỐ ĐẶC BIỆT
+   WEIGHTED PICK
 ========================= */
-function generateSpecial(){
-  const recent50 =
-    history.slice(-50);
-  const recent100 =
-    history.slice(-100);
-  const w50 =
-    makeWeights(
-      recent50,
-      12,
-      true
-    );
-  const w100 =
-    makeWeights(
-      recent100,
-      12,
-      true
-    );
-  const items = [];
-  const weights = [];
-  for(let n = 1; n <= 12; n++){
-    items.push(n);
-    weights.push(
-      w50[n - 1] * 0.5 +
-      w100[n - 1] * 0.5
-    );
-  }
-  return weightedPick(
+function weightedPick(
     items,
     weights
-  );
-}
-/* =========================
-   HIỆN SỐ
-========================= */
-function showBall(element, number){
-  element.textContent =
-    String(number).padStart(2,"0");
-  element.classList.remove("show");
-  void element.offsetWidth;
-  element.classList.add("show");
-}
-/* =========================
-   QUAY
-========================= */
-async function generate(){
-  button.disabled = true;
-  cat.classList.add("spinning");
-  special.textContent = "?";
-  balls.forEach(
-    ball => {
-      ball.textContent = "?";
-      ball.classList.remove("show");
+) {
+    let total = 0;
+    for (const item of items) {
+        total += weights[item];
     }
-  );
-  status.textContent =
-    "🐱 Mèo thần tài đang suy nghĩ...";
-  await wait(500);
-  const numbers =
-    generateMain();
-  const specialNumber =
-    generateSpecial();
-  status.textContent =
-    "✨ Mèo đang nhả số...";
-  for(let i = 0; i < numbers.length; i++){
-    showBall(
-      balls[i],
-      numbers[i]
+    let r =
+        random() * total;
+    for (const item of items) {
+        r -= weights[item];
+        if (r <= 0) {
+            return item;
+        }
+    }
+    return items[
+        items.length - 1
+    ];
+}
+/* =========================
+   MAIN NUMBERS
+========================= */
+function generateMain() {
+    const recent50 =
+        history.slice(-50);
+    const recent100 =
+        history.slice(-100);
+    const weight50 =
+        makeWeights(
+            recent50,
+            35,
+            false
+        );
+    const weight100 =
+        makeWeights(
+            recent100,
+            35,
+            false
+        );
+    const weights = {};
+    for (
+        let i = 1;
+        i <= 35;
+        i++
+    ) {
+        weights[i] =
+            weight50[i] * 0.5 +
+            weight100[i] * 0.5;
+    }
+    const available = [];
+    for (
+        let i = 1;
+        i <= 35;
+        i++
+    ) {
+        available.push(i);
+    }
+    const result = [];
+    while (
+        result.length < 5
+    ) {
+        const picked =
+            weightedPick(
+                available,
+                weights
+            );
+        result.push(picked);
+        const index =
+            available.indexOf(
+                picked
+            );
+        if (index !== -1) {
+            available.splice(
+                index,
+                1
+            );
+        }
+    }
+    result.sort(
+        (a, b) => a - b
     );
-    await wait(350);
-  }
-  await wait(300);
-  showBall(
-    special,
-    specialNumber
-  );
-  status.textContent =
-    "🎉 Đã chọn xong một bộ số!";
-  cat.classList.remove("spinning");
-  button.disabled = false;
+    return result;
 }
 /* =========================
-   DELAY
+   SPECIAL
 ========================= */
-function wait(ms){
-  return new Promise(
-    resolve => setTimeout(resolve,ms)
-  );
+function generateSpecial() {
+    const recent50 =
+        history.slice(-50);
+    const recent100 =
+        history.slice(-100);
+    const weight50 =
+        makeWeights(
+            recent50,
+            12,
+            true
+        );
+    const weight100 =
+        makeWeights(
+            recent100,
+            12,
+            true
+        );
+    const weights = {};
+    for (
+        let i = 1;
+        i <= 12;
+        i++
+    ) {
+        weights[i] =
+            weight50[i] * 0.5 +
+            weight100[i] * 0.5;
+    }
+    const available = [];
+    for (
+        let i = 1;
+        i <= 12;
+        i++
+    ) {
+        available.push(i);
+    }
+    return weightedPick(
+        available,
+        weights
+    );
 }
 /* =========================
-   START
+   WAIT
 ========================= */
-async function start(){
-  try{
-    history =
-      await loadHistory();
-    status.textContent =
-      "Đã tải " +
-      history.length +
-      " kỳ. Sẵn sàng!";
-  }catch(error){
-    console.error(error);
-    status.innerHTML =
-      '<span class="error">' +
-      "Lỗi: không đọc được dữ liệu." +
-      "</span>";
+function wait(ms) {
+    return new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                ms
+            )
+    );
+}
+/* =========================
+   SPIT EFFECT
+========================= */
+async function spitNumber(
+    number,
+    target
+) {
+    /*
+       Xóa animation cũ
+    */
+    spitBall.classList.remove(
+        "fly"
+    );
+    /*
+       Đặt số lên viên bóng bay
+    */
+    spitBall.textContent =
+        String(number)
+            .padStart(2, "0");
+    /*
+       Ép trình duyệt nhận
+       trạng thái mới trước
+       khi chạy animation.
+    */
+    void spitBall.offsetWidth;
+    /*
+       Mèo mở miệng
+    */
+    cat.classList.add(
+        "spitting"
+    );
+    /*
+       Viên số bay ra
+    */
+    spitBall.classList.add(
+        "fly"
+    );
+    /*
+       Chờ animation kết thúc
+    */
+    await wait(550);
+    /*
+       Đóng miệng mèo
+    */
+    cat.classList.remove(
+        "spitting"
+    );
+    /*
+       Hiện số thật ở kết quả
+    */
+    target.classList.remove(
+        "show"
+    );
+    void target.offsetWidth;
+    target.textContent =
+        String(number)
+            .padStart(2, "0");
+    target.classList.add(
+        "show"
+    );
+    /*
+       Chuẩn bị viên bay
+       cho lần tiếp theo
+    */
+    spitBall.classList.remove(
+        "fly"
+    );
+}
+/* =========================
+   GENERATE
+========================= */
+async function generate() {
+    if (!history.length) {
+        status.textContent =
+            "Chưa tải được dữ liệu.";
+        return;
+    }
     button.disabled = true;
-  }
+    status.textContent =
+        "Mèo đang chọn số... 🐱";
+    /*
+       Xóa kết quả cũ
+    */
+    for (const ball of balls) {
+        ball.classList.remove(
+            "show"
+        );
+        ball.textContent = "";
+    }
+    specialBall.classList.remove(
+        "show"
+    );
+    specialBall.textContent = "";
+    /*
+       Tạo bộ số
+    */
+    const mainNumbers =
+        generateMain();
+    const specialNumber =
+        generateSpecial();
+    /*
+       Mèo nhả từng số
+    */
+    for (
+        let i = 0;
+        i < mainNumbers.length;
+        i++
+    ) {
+        await spitNumber(
+            mainNumbers[i],
+            balls[i]
+        );
+        await wait(180);
+    }
+    /*
+       Nhả số đặc biệt
+    */
+    await wait(250);
+    await spitNumber(
+        specialNumber,
+        specialBall
+    );
+    status.textContent =
+        "Đã chọn xong bộ số tham khảo 🍀";
+    button.disabled = false;
+}
+/* =========================
+   LOAD HISTORY
+========================= */
+async function loadHistory() {
+    try {
+        const response =
+            await fetch(
+                "history.json?cache=" +
+                Date.now()
+            );
+        if (!response.ok) {
+            throw new Error(
+                "Không tải được history.json"
+            );
+        }
+        history =
+            await response.json();
+        if (
+            !Array.isArray(history) ||
+            !history.length
+        ) {
+            throw new Error(
+                "history.json không có dữ liệu"
+            );
+        }
+        status.textContent =
+            "Đã tải " +
+            history.length +
+            " kỳ quay.";
+    } catch (error) {
+        console.error(error);
+        status.textContent =
+            "Lỗi tải dữ liệu history.json.";
+        button.disabled = true;
+    }
 }
 /* =========================
    BUTTON
 ========================= */
 button.addEventListener(
-  "click",
-  generate
+    "click",
+    generate
 );
-/* CHẠY */
-start();
+/* =========================
+   START
+========================= */
+loadHistory();
 </script>
 </body>
 </html>
