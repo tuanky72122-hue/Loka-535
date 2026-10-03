@@ -4,11 +4,11 @@ from pathlib import Path
 
 HISTORY_FILE = Path("history.json")
 
-MIN_TRAINING_DRAWS = 300
+MIN_TRAINING_DRAWS = 100
 TEST_DRAWS = 200
 REPETITIONS = 100
 
-WINDOWS = [20, 50, 100, 150, 200, 300]
+WINDOWS = [30, 40, 50, 60, 75, 100]
 
 
 def load_history():
@@ -30,7 +30,7 @@ def calculate_recent_frequency(history, window):
     return frequency
 
 
-def weighted_sample(frequency, window, count=5):
+def weighted_sample(frequency, window):
     expected = window * 5 / 35
 
     weights = {}
@@ -42,7 +42,7 @@ def weighted_sample(frequency, window, count=5):
     available = dict(weights)
     selected = []
 
-    for _ in range(count):
+    for _ in range(5):
         total_weight = sum(available.values())
 
         target = (
@@ -79,62 +79,56 @@ def count_matches(prediction, actual):
     return len(set(prediction) & set(actual))
 
 
-def evaluate_window(history, window):
+def evaluate_once(history, random_predictions):
     start = max(
         MIN_TRAINING_DRAWS,
         len(history) - TEST_DRAWS
     )
 
-    results = []
+    results = {
+        window: []
+        for window in WINDOWS
+    }
 
-    for index in range(start, len(history)):
+    random_results = []
+
+    for position, index in enumerate(
+        range(start, len(history))
+    ):
         training = history[:index]
         actual = history[index]["numbers"]
 
-        if len(training) < window:
-            continue
+        random_prediction = random_predictions[position]
 
-        frequency = calculate_recent_frequency(
-            training,
-            window
-        )
-
-        prediction = weighted_sample(
-            frequency,
-            window
-        )
-
-        matches = count_matches(
-            prediction,
+        random_matches = count_matches(
+            random_prediction,
             actual
         )
 
-        results.append(matches)
+        random_results.append(random_matches)
 
-    return results
+        for window in WINDOWS:
+            if len(training) < window:
+                continue
 
+            frequency = calculate_recent_frequency(
+                training,
+                window
+            )
 
-def evaluate_random(history):
-    start = max(
-        MIN_TRAINING_DRAWS,
-        len(history) - TEST_DRAWS
-    )
+            prediction = weighted_sample(
+                frequency,
+                window
+            )
 
-    results = []
+            matches = count_matches(
+                prediction,
+                actual
+            )
 
-    for index in range(start, len(history)):
-        actual = history[index]["numbers"]
+            results[window].append(matches)
 
-        prediction = random_sample()
-
-        matches = count_matches(
-            prediction,
-            actual
-        )
-
-        results.append(matches)
-
-    return results
+    return results, random_results
 
 
 def average(values):
@@ -151,25 +145,59 @@ def main():
         print("ERROR: Không đủ dữ liệu để Backtest.")
         return
 
-    print("=" * 50)
-    print("LOKA-535 BACKTEST V4")
-    print("=" * 50)
-    print(f"Tổng dữ liệu: {len(history)} kỳ")
-    print(f"Kỳ kiểm thử: {TEST_DRAWS}")
-    print()
-    print(
-        "Kiểm tra Recent Frequency với "
-        "nhiều cửa sổ lịch sử."
+    start = max(
+        MIN_TRAINING_DRAWS,
+        len(history) - TEST_DRAWS
     )
 
-    random_results = []
+    test_draws = len(history) - start
+
+    totals = {
+        window: []
+        for window in WINDOWS
+    }
+
+    random_totals = []
+
+    print("=" * 50)
+    print("LOKA-535 BACKTEST V5")
+    print("=" * 50)
+    print(f"Tổng dữ liệu: {len(history)} kỳ")
+    print(f"Kỳ kiểm thử: {test_draws}")
+    print(f"Số lượt kiểm định: {REPETITIONS}")
+    print()
+    print(
+        "Các cửa sổ được so sánh: "
+        "30, 40, 50, 60, 75, 100 kỳ."
+    )
+    print(
+        "Mỗi lượt sử dụng cùng một Random baseline "
+        "cho tất cả cửa sổ."
+    )
 
     for _ in range(REPETITIONS):
-        random_results.extend(
-            evaluate_random(history)
+        random_predictions = []
+
+        for _ in range(test_draws):
+            random_predictions.append(
+                random_sample()
+            )
+
+        results, random_results = evaluate_once(
+            history,
+            random_predictions
         )
 
-    random_average = average(random_results)
+        for window in WINDOWS:
+            totals[window].extend(
+                results[window]
+            )
+
+        random_totals.extend(
+            random_results
+        )
+
+    random_average = average(random_totals)
 
     print()
     print("=" * 50)
@@ -182,26 +210,22 @@ def main():
 
     print()
     print("=" * 50)
-    print("RECENT FREQUENCY WINDOWS")
+    print("RECENT FREQUENCY")
     print("=" * 50)
 
-    results = {}
+    averages = {}
 
     for window in WINDOWS:
-        all_results = []
+        model_average = average(
+            totals[window]
+        )
 
-        for _ in range(REPETITIONS):
-            all_results.extend(
-                evaluate_window(
-                    history,
-                    window
-                )
-            )
+        difference = (
+            model_average
+            - random_average
+        )
 
-        model_average = average(all_results)
-        difference = model_average - random_average
-
-        results[window] = model_average
+        averages[window] = model_average
 
         print(
             f"{window:3d} kỳ: "
@@ -209,29 +233,29 @@ def main():
             f"({difference:+.4f})"
         )
 
+    best_window = max(
+        averages,
+        key=averages.get
+    )
+
     print()
     print("=" * 50)
     print("KẾT QUẢ")
     print("=" * 50)
 
-    best_window = max(
-        results,
-        key=results.get
-    )
-
     print(
-        f"Cửa sổ có kết quả cao nhất: "
+        f"Cửa sổ cao nhất: "
         f"{best_window} kỳ"
     )
 
     print(
         f"Trung bình: "
-        f"{results[best_window]:.4f}"
+        f"{averages[best_window]:.4f}"
     )
 
     print(
         f"So với Random: "
-        f"{results[best_window] - random_average:+.4f}"
+        f"{averages[best_window] - random_average:+.4f}"
     )
 
     print()
