@@ -7,6 +7,7 @@ HISTORY_FILE = Path("history.json")
 MIN_TRAINING_DRAWS = 100
 TEST_DRAWS = 200
 REPETITIONS = 100
+RECENT_WINDOW = 100
 
 
 def load_history():
@@ -26,7 +27,7 @@ def calculate_frequency(history):
     return frequency
 
 
-def calculate_recent_frequency(history, window=100):
+def calculate_recent_frequency(history, window=RECENT_WINDOW):
     recent = history[-window:]
 
     frequency = {number: 0 for number in range(1, 36)}
@@ -57,7 +58,7 @@ def calculate_gap(history):
     }
 
 
-def build_weights(history):
+def build_weights(history, model):
     frequency = calculate_frequency(history)
     recent = calculate_recent_frequency(history)
     gap = calculate_gap(history)
@@ -65,7 +66,7 @@ def build_weights(history):
     total_draws = len(history)
     expected = total_draws * 5 / 35
 
-    recent_window = min(total_draws, 100)
+    recent_window = min(total_draws, RECENT_WINDOW)
     recent_expected = recent_window * 5 / 35
 
     weights = {}
@@ -81,11 +82,24 @@ def build_weights(history):
 
         gap_factor = 1 + min(gap[number], 20) / 100
 
-        weight = (
-            0.50 * long_term
-            + 0.30 * recent_ratio
-            + 0.20 * gap_factor
-        )
+        if model == "frequency":
+            weight = long_term
+
+        elif model == "recent":
+            weight = recent_ratio
+
+        elif model == "gap":
+            weight = gap_factor
+
+        elif model == "combined":
+            weight = (
+                0.50 * long_term
+                + 0.30 * recent_ratio
+                + 0.20 * gap_factor
+            )
+
+        else:
+            weight = 1
 
         weights[number] = max(weight, 0.01)
 
@@ -133,38 +147,28 @@ def count_matches(prediction, actual):
     return len(set(prediction) & set(actual))
 
 
-def evaluate_once(history):
+def evaluate_model(history, model):
     start = max(
         MIN_TRAINING_DRAWS,
         len(history) - TEST_DRAWS
     )
 
-    weighted_results = []
-    random_results = []
+    results = []
 
     for index in range(start, len(history)):
         training = history[:index]
         actual = history[index]["numbers"]
 
-        weights = build_weights(training)
+        if model == "random":
+            prediction = random_sample()
+        else:
+            weights = build_weights(training, model)
+            prediction = weighted_sample(weights)
 
-        weighted_prediction = weighted_sample(weights)
-        random_prediction = random_sample()
+        matches = count_matches(prediction, actual)
+        results.append(matches)
 
-        weighted_matches = count_matches(
-            weighted_prediction,
-            actual
-        )
-
-        random_matches = count_matches(
-            random_prediction,
-            actual
-        )
-
-        weighted_results.append(weighted_matches)
-        random_results.append(random_matches)
-
-    return weighted_results, random_results
+    return results
 
 
 def average(values):
@@ -174,7 +178,7 @@ def average(values):
     return sum(values) / len(values)
 
 
-def summarize_results(results):
+def summarize(results):
     return {
         "average": average(results),
         "zero": results.count(0),
@@ -184,6 +188,54 @@ def summarize_results(results):
             1 for value in results if value >= 3
         ),
     }
+
+
+def run_repetitions(history, model):
+    averages = []
+
+    total_results = []
+
+    for _ in range(REPETITIONS):
+        results = evaluate_model(history, model)
+
+        averages.append(average(results))
+        total_results.extend(results)
+
+    return averages, total_results
+
+
+def print_model_result(name, averages, results):
+    summary = summarize(results)
+
+    print()
+    print("=" * 50)
+    print(name)
+    print("=" * 50)
+
+    print(
+        f"Trung bình số khớp: "
+        f"{average(averages):.4f}"
+    )
+
+    print(
+        f"0 số khớp: "
+        f"{summary['zero']}"
+    )
+
+    print(
+        f"1 số khớp: "
+        f"{summary['one']}"
+    )
+
+    print(
+        f"2 số khớp: "
+        f"{summary['two']}"
+    )
+
+    print(
+        f">=3 số khớp: "
+        f"{summary['three_or_more']}"
+    )
 
 
 def main():
@@ -198,147 +250,72 @@ def main():
         len(history) - TEST_DRAWS
     )
 
-    actual_test_draws = len(history) - start
+    test_draws = len(history) - start
+
+    models = [
+        ("random", "PURE RANDOM"),
+        ("frequency", "FREQUENCY DÀI HẠN"),
+        ("recent", "RECENT FREQUENCY"),
+        ("gap", "GAP"),
+        ("combined", "COMBINED 50/30/20"),
+    ]
 
     print("=" * 50)
-    print("LOKA-535 BACKTEST V2")
+    print("LOKA-535 BACKTEST V3")
     print("=" * 50)
     print(f"Tổng dữ liệu: {len(history)} kỳ")
-    print(f"Kỳ kiểm thử: {actual_test_draws}")
+    print(f"Kỳ kiểm thử: {test_draws}")
     print(f"Số lượt kiểm định: {REPETITIONS}")
     print()
     print(
-        "Mỗi lượt: 1 Weighted Random + 1 Pure Random "
-        "trên cùng các kỳ thực tế."
+        "Mỗi mô hình được kiểm tra độc lập "
+        "trên cùng 200 kỳ lịch sử."
     )
 
-    differences = []
-    weighted_averages = []
-    random_averages = []
+    model_results = {}
 
-    weighted_total = []
-    random_total = []
+    for model, name in models:
+        averages, results = run_repetitions(
+            history,
+            model
+        )
 
-    for _ in range(REPETITIONS):
-        weighted, random_results = evaluate_once(history)
+        model_results[model] = average(averages)
 
-        weighted_avg = average(weighted)
-        random_avg = average(random_results)
-        difference = weighted_avg - random_avg
+        print_model_result(
+            name,
+            averages,
+            results
+        )
 
-        weighted_averages.append(weighted_avg)
-        random_averages.append(random_avg)
-        differences.append(difference)
-
-        weighted_total.extend(weighted)
-        random_total.extend(random_results)
-
-    weighted_summary = summarize_results(weighted_total)
-    random_summary = summarize_results(random_total)
-
-    positive_runs = sum(
-        1 for difference in differences
-        if difference > 0
-    )
-
-    negative_runs = sum(
-        1 for difference in differences
-        if difference < 0
-    )
-
-    equal_runs = sum(
-        1 for difference in differences
-        if difference == 0
-    )
-
-    overall_difference = (
-        average(weighted_averages)
-        - average(random_averages)
-    )
+    random_average = model_results["random"]
 
     print()
     print("=" * 50)
-    print("WEIGHTED RANDOM")
+    print("SO SÁNH VỚI PURE RANDOM")
     print("=" * 50)
-    print(
-        f"Số lần dự đoán: "
-        f"{len(weighted_total)}"
-    )
-    print(
-        f"Số khớp trung bình: "
-        f"{weighted_summary['average']:.4f}"
-    )
-    print(f"0 số khớp: {weighted_summary['zero']}")
-    print(f"1 số khớp: {weighted_summary['one']}")
-    print(f"2 số khớp: {weighted_summary['two']}")
-    print(
-        f">=3 số khớp: "
-        f"{weighted_summary['three_or_more']}"
-    )
+
+    for model, name in models:
+        if model == "random":
+            continue
+
+        difference = (
+            model_results[model]
+            - random_average
+        )
+
+        print(
+            f"{name}: "
+            f"{difference:+.4f}"
+        )
 
     print()
     print("=" * 50)
-    print("PURE RANDOM BASELINE")
+    print("KẾT LUẬN KIỂM ĐỊNH")
     print("=" * 50)
     print(
-        f"Số lần dự đoán: "
-        f"{len(random_total)}"
-    )
-    print(
-        f"Số khớp trung bình: "
-        f"{random_summary['average']:.4f}"
-    )
-    print(f"0 số khớp: {random_summary['zero']}")
-    print(f"1 số khớp: {random_summary['one']}")
-    print(f"2 số khớp: {random_summary['two']}")
-    print(
-        f">=3 số khớp: "
-        f"{random_summary['three_or_more']}"
-    )
-
-    print()
-    print("=" * 50)
-    print("KẾT QUẢ 100 LƯỢT KIỂM ĐỊNH")
-    print("=" * 50)
-
-    print(
-        f"Weighted thắng: "
-        f"{positive_runs}/{REPETITIONS}"
-    )
-
-    print(
-        f"Random thắng: "
-        f"{negative_runs}/{REPETITIONS}"
-    )
-
-    print(
-        f"Hòa: "
-        f"{equal_runs}/{REPETITIONS}"
-    )
-
-    print()
-    print(
-        f"Weighted trung bình: "
-        f"{average(weighted_averages):.4f}"
-    )
-
-    print(
-        f"Random trung bình: "
-        f"{average(random_averages):.4f}"
-    )
-
-    print(
-        f"Weighted - Random: "
-        f"{overall_difference:+.4f}"
-    )
-
-    print()
-    print("=" * 50)
-    print("LƯU Ý")
-    print("=" * 50)
-    print(
-        "Backtest chỉ kiểm tra dữ liệu lịch sử. "
-        "Nó không chứng minh khả năng dự đoán kỳ tiếp theo."
+        "Kết quả chỉ phản ánh dữ liệu lịch sử "
+        "và không chứng minh khả năng dự đoán kỳ tiếp theo."
     )
 
 
