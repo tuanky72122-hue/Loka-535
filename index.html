@@ -16,7 +16,7 @@ body {
                "Segoe UI", sans-serif;
   color: #fff;
   background:
-    radial-gradient(circle at 50% 15%, #26344c 0%, #101827 35%, #05070c 75%);
+    radial-gradient(circle at 50% 12%, #283650 0%, #101827 38%, #04060b 80%);
   overflow-x: hidden;
 }
 .container {
@@ -44,50 +44,322 @@ body {
   font-size: 13px;
   margin-top: 5px;
 }
-/* CAT */
+/* ==================================================
+   LUCKY CAT
+   ================================================== */
 .cat-area {
   position: relative;
-  height: 180px;
+  height: 215px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.cat {
-  font-size: 105px;
-  filter: drop-shadow(0 12px 20px rgba(0,0,0,.4));
-  animation: floatCat 2.8s ease-in-out infinite;
-  user-select: none;
+.cat-wrap {
+  position: relative;
+  width: 180px;
+  height: 190px;
+  animation: catFloat 3s ease-in-out infinite;
 }
-.cat-hand {
-  display: inline-block;
-  animation: wave 1.2s ease-in-out infinite;
-  transform-origin: bottom center;
+.cat-shadow {
+  position: absolute;
+  left: 31px;
+  bottom: 4px;
+  width: 118px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.35);
+  filter: blur(7px);
+  animation: shadowMove 3s ease-in-out infinite;
 }
-@keyframes floatCat {
+.cat-body {
+  position: absolute;
+  left: 35px;
+  bottom: 17px;
+  width: 110px;
+  height: 105px;
+  border-radius: 50px 50px 42px 42px;
+  background: linear-gradient(145deg, #ffd65c, #e69a22);
+  border: 3px solid #a96317;
+  box-shadow:
+    inset -8px -10px 0 rgba(150,80,10,.12),
+    0 12px 25px rgba(0,0,0,.25);
+}
+.cat-belly {
+  position: absolute;
+  left: 21px;
+  top: 35px;
+  width: 64px;
+  height: 59px;
+  border-radius: 50%;
+  background: #fff0bd;
+  border: 2px solid rgba(166,101,21,.25);
+}
+.cat-head {
+  position: absolute;
+  left: 34px;
+  top: 27px;
+  width: 112px;
+  height: 93px;
+  border-radius: 48% 48% 45% 45%;
+  background: linear-gradient(145deg, #ffe06d, #efa72b);
+  border: 3px solid #a96317;
+  z-index: 5;
+  box-shadow: 0 8px 18px rgba(0,0,0,.25);
+}
+.ear {
+  position: absolute;
+  width: 43px;
+  height: 45px;
+  background: #f5b532;
+  border: 3px solid #a96317;
+  top: -25px;
+  z-index: -1;
+}
+.ear.left {
+  left: 5px;
+  transform: rotate(-22deg);
+  border-radius: 9px 35px 8px 30px;
+}
+.ear.right {
+  right: 5px;
+  transform: rotate(22deg);
+  border-radius: 35px 9px 30px 8px;
+}
+.inner-ear {
+  position: absolute;
+  inset: 8px;
+  background: #f49a78;
+  border-radius: inherit;
+}
+.eye {
+  position: absolute;
+  top: 39px;
+  width: 13px;
+  height: 17px;
+  background: #26180d;
+  border-radius: 50%;
+}
+.eye.left {
+  left: 29px;
+}
+.eye.right {
+  right: 29px;
+}
+.eye::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 5px;
+  background: #fff;
+  border-radius: 50%;
+  left: 3px;
+  top: 2px;
+}
+.nose {
+  position: absolute;
+  top: 58px;
+  left: 49px;
+  width: 14px;
+  height: 10px;
+  background: #d97861;
+  border-radius: 50%;
+}
+.mouth {
+  position: absolute;
+  top: 66px;
+  left: 48px;
+  width: 17px;
+  height: 9px;
+  border-bottom: 3px solid #522818;
+  border-radius: 50%;
+}
+.cheek {
+  position: absolute;
+  top: 60px;
+  width: 17px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(231,102,71,.35);
+}
+.cheek.left {
+  left: 11px;
+}
+.cheek.right {
+  right: 11px;
+}
+.whisker {
+  position: absolute;
+  width: 30px;
+  height: 1px;
+  background: #82501c;
+  top: 67px;
+}
+.whisker.w1 {
+  left: -18px;
+  transform: rotate(-10deg);
+}
+.whisker.w2 {
+  left: -18px;
+  top: 74px;
+  transform: rotate(8deg);
+}
+.whisker.w3 {
+  right: -18px;
+  transform: rotate(10deg);
+}
+.whisker.w4 {
+  right: -18px;
+  top: 74px;
+  transform: rotate(-8deg);
+}
+/* Raised paw */
+.paw {
+  position: absolute;
+  z-index: 7;
+  right: -12px;
+  top: 65px;
+  width: 43px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffd963, #e89d25);
+  border: 3px solid #a96317;
+  transform-origin: 50% 90%;
+  animation: pawWave 1.8s ease-in-out infinite;
+}
+.paw-line {
+  position: absolute;
+  width: 4px;
+  height: 12px;
+  border-radius: 5px;
+  background: #a96317;
+  bottom: 8px;
+}
+.paw-line.p1 {
+  left: 10px;
+  transform: rotate(-12deg);
+}
+.paw-line.p2 {
+  left: 18px;
+}
+.paw-line.p3 {
+  left: 26px;
+  transform: rotate(12deg);
+}
+/* Coin */
+.coin {
+  position: absolute;
+  z-index: 8;
+  left: 6px;
+  top: 94px;
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffe987, #c58b19);
+  border: 3px solid #a16b12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a16b12;
+  font-weight: 900;
+  font-size: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.3);
+  animation: coinFloat 2s ease-in-out infinite;
+}
+/* Red lucky envelope */
+.envelope {
+  position: absolute;
+  z-index: 9;
+  left: 63px;
+  bottom: 20px;
+  width: 54px;
+  height: 39px;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #d94b40, #9e2527);
+  border: 2px solid #75191d;
+  transform: rotate(-4deg);
+  box-shadow: 0 6px 13px rgba(0,0,0,.25);
+}
+.envelope::before {
+  content: "福";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffd966;
+  font-size: 21px;
+  font-weight: 900;
+}
+.envelope::after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  top: 0;
+  height: 20px;
+  border-bottom: 2px solid rgba(255,215,90,.45);
+  transform: skewY(25deg);
+}
+/* Sparkles */
+.spark {
+  position: absolute;
+  font-size: 18px;
+  color: #ffe486;
+  animation: sparkle 1.8s ease-in-out infinite;
+}
+.s1 {
+  left: 19%;
+  top: 30%;
+}
+.s2 {
+  right: 20%;
+  top: 22%;
+  animation-delay: .5s;
+}
+.s3 {
+  left: 25%;
+  bottom: 12%;
+  animation-delay: 1s;
+}
+.s4 {
+  right: 25%;
+  bottom: 16%;
+  animation-delay: .8s;
+}
+@keyframes catFloat {
   0%,100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-7px);
   }
 }
-@keyframes wave {
+@keyframes shadowMove {
   0%,100% {
-    transform: rotate(0deg);
+    transform: scaleX(1);
+    opacity: .45;
   }
   50% {
-    transform: rotate(10deg);
+    transform: scaleX(.8);
+    opacity: .25;
   }
 }
-.spark {
-  position: absolute;
-  font-size: 18px;
-  animation: sparkle 1.8s ease-in-out infinite;
+@keyframes pawWave {
+  0%,100% {
+    transform: rotate(7deg);
+  }
+  50% {
+    transform: rotate(23deg);
+  }
 }
-.s1 { left: 25%; top: 35%; }
-.s2 { right: 25%; top: 25%; animation-delay: .5s; }
-.s3 { left: 31%; bottom: 15%; animation-delay: 1s; }
-.s4 { right: 31%; bottom: 18%; animation-delay: .8s; }
+@keyframes coinFloat {
+  0%,100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-5px) rotate(8deg);
+  }
+}
 @keyframes sparkle {
   0%,100% {
     opacity: .2;
@@ -95,52 +367,58 @@ body {
   }
   50% {
     opacity: 1;
-    transform: scale(1.2);
+    transform: scale(1.25);
   }
 }
-/* BUTTON */
+/* ==================================================
+   BUTTON
+   ================================================== */
 button {
   width: 100%;
   padding: 18px;
   border: 0;
   border-radius: 18px;
-  background: linear-gradient(135deg, #fff, #cdd8e5);
+  background: linear-gradient(135deg, #fff, #ccd8e6);
   color: #08101d;
   font-size: 16px;
   font-weight: 900;
   letter-spacing: 1px;
-  box-shadow: 0 12px 35px rgba(0,0,0,.35);
   cursor: pointer;
+  box-shadow: 0 12px 35px rgba(0,0,0,.35);
   transition: .2s;
 }
 button:active {
   transform: scale(.97);
 }
 button:disabled {
-  opacity: .65;
+  opacity: .7;
 }
-/* STATUS */
+/* ==================================================
+   STATUS
+   ================================================== */
 .status {
-  height: 28px;
+  height: 30px;
   text-align: center;
   margin-top: 15px;
-  color: #9aaac0;
+  color: #a1b0c3;
   font-size: 13px;
 }
-/* RESULT */
+/* ==================================================
+   RESULT
+   ================================================== */
 .result {
-  margin-top: 15px;
-  background: rgba(13,20,32,.86);
-  border: 1px solid rgba(255,255,255,.08);
+  margin-top: 14px;
+  padding: 23px;
   border-radius: 25px;
-  padding: 22px;
-  box-shadow: 0 20px 55px rgba(0,0,0,.3);
-  animation: appear .7s ease;
+  background: rgba(13,20,32,.88);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 20px 55px rgba(0,0,0,.32);
+  animation: resultAppear .8s ease;
 }
-@keyframes appear {
+@keyframes resultAppear {
   from {
     opacity: 0;
-    transform: translateY(18px) scale(.97);
+    transform: translateY(20px) scale(.95);
   }
   to {
     opacity: 1;
@@ -153,7 +431,7 @@ button:disabled {
   font-size: 11px;
   letter-spacing: 3px;
   font-weight: 800;
-  margin-bottom: 18px;
+  margin-bottom: 19px;
 }
 .numbers {
   display: flex;
@@ -168,17 +446,17 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(145deg, #ffffff, #bdcad8);
+  background: linear-gradient(145deg, #fff, #bdcad8);
   color: #09111e;
-  font-weight: 900;
   font-size: 17px;
-  box-shadow: 0 7px 20px rgba(0,0,0,.35);
-  animation: ballIn .5s ease both;
+  font-weight: 900;
+  box-shadow: 0 8px 22px rgba(0,0,0,.35);
+  animation: ballIn .55s cubic-bezier(.2,1.5,.4,1) both;
 }
 @keyframes ballIn {
   from {
     opacity: 0;
-    transform: scale(.3) rotate(-20deg);
+    transform: scale(.2) rotate(-30deg);
   }
   to {
     opacity: 1;
@@ -187,7 +465,7 @@ button:disabled {
 }
 .special-box {
   text-align: center;
-  margin-top: 23px;
+  margin-top: 24px;
 }
 .special-label {
   color: #a6b4c6;
@@ -196,29 +474,42 @@ button:disabled {
   margin-bottom: 8px;
 }
 .special {
-  width: 56px;
-  height: 56px;
+  width: 57px;
+  height: 57px;
   margin: auto;
   border-radius: 50%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background: linear-gradient(145deg, #f0d17c, #a97920);
-  font-weight: 900;
+  justify-content: center;
+  background: linear-gradient(145deg, #f2d47e, #a97820);
+  color: #fff;
   font-size: 18px;
-  box-shadow: 0 7px 25px rgba(200,150,50,.3);
-  animation: ballIn .7s ease both;
+  font-weight: 900;
+  box-shadow: 0 8px 26px rgba(200,150,50,.3);
+  animation: specialIn .8s cubic-bezier(.2,1.5,.4,1) both;
 }
-/* ANALYSIS */
+@keyframes specialIn {
+  from {
+    opacity: 0;
+    transform: scale(.1) rotate(180deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+/* ==================================================
+   ANALYSIS
+   ================================================== */
 .analysis {
-  margin-top: 16px;
+  margin-top: 18px;
 }
 .analysis-title {
   font-size: 11px;
   color: #94a5ba;
   letter-spacing: 2px;
   font-weight: 800;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .reason {
   display: flex;
@@ -243,20 +534,21 @@ button:disabled {
   font-weight: 900;
 }
 .reason-text {
-  font-size: 13px;
   color: #c2ccda;
+  font-size: 13px;
   line-height: 1.45;
 }
 .reason-text strong {
   color: #fff;
 }
-.reason-special {
-  margin-top: 5px;
-  color: #d9c27a;
+.special-reason {
+  color: #d8bf75;
 }
-/* INFO */
+/* ==================================================
+   INFO
+   ================================================== */
 .info {
-  margin-top: 16px;
+  margin-top: 17px;
   padding: 16px;
   border-radius: 18px;
   background: rgba(255,255,255,.035);
@@ -265,40 +557,72 @@ button:disabled {
   line-height: 1.6;
   text-align: center;
 }
-.hidden {
-  display: none;
-}
-/* RUNNING */
-.running .cat {
+/* ==================================================
+   RUNNING EFFECT
+   ================================================== */
+.running .cat-wrap {
   animation:
-    floatCat .8s ease-in-out infinite,
-    shake .18s linear infinite;
+    catFloat .7s ease-in-out infinite,
+    catShake .13s linear infinite;
 }
-@keyframes shake {
-  0% { transform: translateX(-3px); }
-  50% { transform: translateX(3px); }
-  100% { transform: translateX(-3px); }
+.running .paw {
+  animation:
+    pawWave .35s ease-in-out infinite;
+}
+.running .coin {
+  animation:
+    coinFloat .4s ease-in-out infinite;
+}
+.running .envelope {
+  animation:
+    envelopeShake .3s ease-in-out infinite;
 }
 .running button {
-  animation: pulse 1s ease-in-out infinite;
+  animation: buttonPulse .9s ease-in-out infinite;
 }
-@keyframes pulse {
-  0%,100% {
-    box-shadow: 0 10px 30px rgba(255,255,255,.1);
+@keyframes catShake {
+  0% {
+    transform: translateX(-3px) rotate(-1deg);
   }
   50% {
-    box-shadow: 0 10px 35px rgba(255,255,255,.35);
+    transform: translateX(3px) rotate(1deg);
+  }
+  100% {
+    transform: translateX(-3px) rotate(-1deg);
   }
 }
+@keyframes envelopeShake {
+  0%,100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+@keyframes buttonPulse {
+  0%,100% {
+    box-shadow: 0 10px 30px rgba(255,255,255,.08);
+  }
+  50% {
+    box-shadow: 0 10px 40px rgba(255,255,255,.35);
+  }
+}
+/* ==================================================
+   RESPONSIVE
+   ================================================== */
 @media (max-width: 450px) {
+  .container {
+    width: 94%;
+    padding-top: 23px;
+  }
   .title {
     font-size: 29px;
   }
   .cat-area {
-    height: 160px;
+    height: 205px;
   }
-  .cat {
-    font-size: 90px;
+  .cat-wrap {
+    transform: scale(.9);
   }
   .ball {
     width: 47px;
@@ -306,45 +630,96 @@ button:disabled {
     font-size: 16px;
   }
 }
+.hidden {
+  display: none;
+}
 </style>
 </head>
 <body>
 <div class="container" id="app">
   <div class="header">
-    <div class="logo">LOKA-535</div>
-    <div class="title">NUMBER ORACLE</div>
-    <div class="subtitle">
-      Một bộ số tham chiếu cho kỳ tiếp theo
-    </div>
+<div class="logo">
+  LOKA-535
+</div>
+<div class="title">
+  NUMBER ORACLE
+</div>
+<div class="subtitle">
+  Một bộ số tham chiếu cho kỳ tiếp theo
+</div>
   </div>
+  <!-- =========================
+       LUCKY CAT
+       ========================= -->
   <div class="cat-area">
 <div class="spark s1">✦</div>
 <div class="spark s2">✧</div>
-<div class="spark s3">✨</div>
-<div class="spark s4">✦</div>
-<div class="cat">
-  🐱<span class="cat-hand">🖐️</span>
+<div class="spark s3">✦</div>
+<div class="spark s4">✨</div>
+<div class="cat-wrap">
+  <div class="cat-shadow"></div>
+  <div class="cat-body">
+    <div class="cat-belly"></div>
+  </div>
+  <div class="cat-head">
+    <div class="ear left">
+      <div class="inner-ear"></div>
+    </div>
+    <div class="ear right">
+      <div class="inner-ear"></div>
+    </div>
+    <div class="eye left"></div>
+    <div class="eye right"></div>
+    <div class="nose"></div>
+    <div class="mouth"></div>
+    <div class="cheek left"></div>
+    <div class="cheek right"></div>
+    <div class="whisker w1"></div>
+    <div class="whisker w2"></div>
+    <div class="whisker w3"></div>
+    <div class="whisker w4"></div>
+  </div>
+  <div class="paw">
+    <div class="paw-line p1"></div>
+    <div class="paw-line p2"></div>
+    <div class="paw-line p3"></div>
+  </div>
+  <div class="coin">
+    $
+  </div>
+  <div class="envelope"></div>
 </div>
   </div>
-  <button id="generateButton" onclick="generate()">
-    ✨ CHỌN BỘ SỐ ✨
+  <!-- =========================
+       BUTTON
+       ========================= -->
+✨ CHỌN BỘ SỐ ✨
   </button>
   <div id="status" class="status">
-    Mèo thần tài đang chờ lệnh... 🐱
+    🐱 Mèo thần tài đang chờ lệnh...
   </div>
+  <!-- =========================
+       RESULT
+       ========================= -->
   <div id="result" class="result hidden">
 <div class="result-title">
   BỘ SỐ THAM CHIẾU
 </div>
-<div id="numbers" class="numbers"></div>
+<div id="numbers"
+     class="numbers">
+</div>
 <div class="special-box">
   <div class="special-label">
     SỐ ĐẶC BIỆT
   </div>
-  <div id="special" class="special">
+  <div id="special"
+       class="special">
     --
   </div>
 </div>
+<!-- =========================
+     ANALYSIS
+     ========================= -->
 <div class="analysis">
   <div class="analysis-title">
     VÌ SAO CHỌN NHỮNG SỐ NÀY?
@@ -356,44 +731,73 @@ button:disabled {
   Bộ số được chọn ngẫu nhiên có tham chiếu dữ liệu,
   không phải dự đoán chắc chắn kết quả.
   <br><br>
-  Dữ liệu: <span id="dataCount">--</span> kỳ
+  Dữ liệu:
+  <strong id="dataCount">--</strong>
+  kỳ
 </div>
   </div>
 </div>
 <script>
+/* ==================================================
+   SETTINGS
+   ================================================== */
 const SHORT_WINDOW = 50;
 const LONG_WINDOW = 100;
 let history = [];
-/* =========================
-   LOAD DATA
-   ========================= */
+/* ==================================================
+   LOAD HISTORY
+   ================================================== */
 async function loadHistory() {
   const response =
-    await fetch("history.json?ts=" + Date.now());
+    await fetch(
+      "history.json?ts=" + Date.now()
+    );
   if (!response.ok) {
-    throw new Error("Không tải được dữ liệu.");
+    throw new Error(
+      "Không tải được history.json"
+    );
   }
   history = await response.json();
-  history.sort((a, b) => a.id - b.id);
-  document.getElementById("status").textContent =
-    "Đã sẵn sàng • " + history.length + " kỳ dữ liệu";
+  history.sort(
+    (a, b) => a.id - b.id
+  );
+  document.getElementById(
+    "status"
+  ).textContent =
+    "Đã sẵn sàng • " +
+    history.length +
+    " kỳ dữ liệu";
 }
-/* =========================
+/* ==================================================
    FREQUENCY
-   ========================= */
-function frequency(records, max, special = false) {
+   ================================================== */
+function frequency(
+  records,
+  max,
+  special = false
+) {
   const result = {};
-  for (let i = 1; i <= max; i++) {
-    result[i] = 0;
+  for (
+    let number = 1;
+    number <= max;
+    number++
+  ) {
+    result[number] = 0;
   }
   for (const record of records) {
     if (special) {
-      if (result[record.special] !== undefined) {
+      if (
+        result[record.special] !== undefined
+      ) {
         result[record.special]++;
       }
     } else {
-      for (const number of record.numbers) {
-        if (result[number] !== undefined) {
+      for (
+        const number of record.numbers
+      ) {
+        if (
+          result[number] !== undefined
+        ) {
           result[number]++;
         }
       }
@@ -401,120 +805,231 @@ function frequency(records, max, special = false) {
   }
   return result;
 }
-/* =========================
+/* ==================================================
    WEIGHTS
-   ========================= */
-function weights(freq, window, max, perDraw) {
+   ================================================== */
+function weights(
+  freq,
+  window,
+  max,
+  perDraw
+) {
   const expected =
     window * perDraw / max;
   const result = {};
-  for (let i = 1; i <= max; i++) {
-    result[i] =
-      Math.max(freq[i] / expected, 0.01);
+  for (
+    let number = 1;
+    number <= max;
+    number++
+  ) {
+    result[number] =
+      Math.max(
+        freq[number] / expected,
+        0.01
+      );
   }
   return result;
 }
-function blend(shortW, longW, max) {
+function blend(
+  shortWeights,
+  longWeights,
+  max
+) {
   const result = {};
-  for (let i = 1; i <= max; i++) {
-    result[i] =
-      shortW[i] * .5 +
-      longW[i] * .5;
+  for (
+    let number = 1;
+    number <= max;
+    number++
+  ) {
+    result[number] =
+      shortWeights[number] * 0.5 +
+      longWeights[number] * 0.5;
   }
   return result;
 }
-/* =========================
-   RANDOM
-   ========================= */
+/* ==================================================
+   SECURE RANDOM
+   ================================================== */
 function randomNumber() {
   const array =
     new Uint32Array(1);
   crypto.getRandomValues(array);
-  return array[0] / 4294967296;
+  return (
+    array[0] / 4294967296
+  );
 }
-function weightedPick(weight, count) {
-  const available = { ...weight };
+function weightedPick(
+  weight,
+  count
+) {
+  const available = {
+    ...weight
+  };
   const selected = [];
-  while (selected.length < count) {
+  while (
+    selected.length < count
+  ) {
     let total = 0;
-    for (const number in available) {
+    for (
+      const number in available
+    ) {
       total += available[number];
     }
     const target =
       randomNumber() * total;
     let current = 0;
-    for (const number in available) {
-      current += available[number];
-      if (target <= current) {
-        selected.push(Number(number));
+    for (
+      const number in available
+    ) {
+      current +=
+        available[number];
+      if (
+        target <= current
+      ) {
+        selected.push(
+          Number(number)
+        );
         delete available[number];
         break;
       }
     }
   }
-  return selected.sort((a,b) => a-b);
+  return selected.sort(
+    (a, b) => a - b
+  );
 }
-/* =========================
+/* ==================================================
    SIMPLE EXPLANATION
-   ========================= */
-function reasonFor(number, shortFreq, longFreq) {
-  const short = shortFreq[number];
-  const long = longFreq[number];
-  const shortAvg = 50 * 5 / 35;
-  const longAvg = 100 * 5 / 35;
-  const shortRatio = short / shortAvg;
-  const longRatio = long / longAvg;
-  if (shortRatio > 1.15 && shortRatio > longRatio) {
-    return "xuất hiện khá nổi bật trong các kỳ gần đây";
+   ================================================== */
+function reasonFor(
+  number,
+  shortFreq,
+  longFreq
+) {
+  const short =
+    shortFreq[number];
+  const long =
+    longFreq[number];
+  const shortAverage =
+    50 * 5 / 35;
+  const longAverage =
+    100 * 5 / 35;
+  const shortRatio =
+    short / shortAverage;
+  const longRatio =
+    long / longAverage;
+  if (
+    shortRatio > 1.15 &&
+    shortRatio > longRatio
+  ) {
+    return (
+      "xuất hiện khá nổi bật " +
+      "trong các kỳ gần đây"
+    );
   }
-  if (shortRatio > 1.05) {
-    return "có tần suất tốt trong dữ liệu gần đây";
+  if (
+    shortRatio > 1.05
+  ) {
+    return (
+      "có tần suất tốt " +
+      "trong dữ liệu gần đây"
+    );
   }
-  if (longRatio > 1.05) {
-    return "có mức xuất hiện đáng chú ý trong dữ liệu dài hơn";
+  if (
+    longRatio > 1.05
+  ) {
+    return (
+      "có mức xuất hiện đáng chú ý " +
+      "trong dữ liệu dài hơn"
+    );
   }
-  return "được dữ liệu lịch sử đưa vào nhóm có khả năng được chọn";
+  return (
+    "được dữ liệu lịch sử " +
+    "đưa vào quá trình lựa chọn"
+  );
 }
-/* =========================
+/* ==================================================
+   WAIT
+   ================================================== */
+function wait(ms) {
+  return new Promise(
+    resolve => setTimeout(
+      resolve,
+      ms
+    )
+  );
+}
+/* ==================================================
    GENERATE
-   ========================= */
+   ================================================== */
 async function generate() {
-  if (history.length < LONG_WINDOW) {
+  if (
+    history.length < LONG_WINDOW
+  ) {
     alert(
       "Chưa đủ dữ liệu để phân tích."
     );
     return;
   }
-  const button =
-    document.getElementById("generateButton");
   const app =
-    document.getElementById("app");
+    document.getElementById(
+      "app"
+    );
+  const button =
+    document.getElementById(
+      "generateButton"
+    );
   const status =
-    document.getElementById("status");
+    document.getElementById(
+      "status"
+    );
   const result =
-    document.getElementById("result");
+    document.getElementById(
+      "result"
+    );
   button.disabled = true;
-  result.classList.add("hidden");
-  app.classList.add("running");
-  /* DRAMA */
+  result.classList.add(
+    "hidden"
+  );
+  app.classList.add(
+    "running"
+  );
+  /* ----------------------------------
+     DRAMA
+     ---------------------------------- */
   status.textContent =
-    "🐱 Đang xem xét những con số nổi bật...";
-  await wait(700);
+    "🐱 Đang xem xét dữ liệu...";
+  await wait(650);
   status.textContent =
-    "✨ Mèo thần tài đang chọn...";
-  await wait(800);
+    "✨ Đang tìm những con số nổi bật...";
+  await wait(750);
+  status.textContent =
+    "🧧 Mèo thần tài đang chọn...";
+  await wait(750);
   status.textContent =
     "🎯 Gần chốt rồi...";
-  await wait(600);
-  /* DATA */
+  await wait(550);
+  /* ----------------------------------
+     MAIN DATA
+     ---------------------------------- */
   const shortHistory =
-    history.slice(-SHORT_WINDOW);
+    history.slice(
+      -SHORT_WINDOW
+    );
   const longHistory =
-    history.slice(-LONG_WINDOW);
+    history.slice(
+      -LONG_WINDOW
+    );
   const shortFreq =
-    frequency(shortHistory, 35);
+    frequency(
+      shortHistory,
+      35
+    );
   const longFreq =
-    frequency(longHistory, 35);
+    frequency(
+      longHistory,
+      35
+    );
   const shortWeights =
     weights(
       shortFreq,
@@ -540,7 +1055,9 @@ async function generate() {
       finalWeights,
       5
     );
-  /* SPECIAL */
+  /* ----------------------------------
+     SPECIAL
+     ---------------------------------- */
   const shortSpecialFreq =
     frequency(
       shortHistory,
@@ -578,79 +1095,124 @@ async function generate() {
       finalSpecialWeights,
       1
     )[0];
-  /* DISPLAY */
-  document.getElementById("numbers").innerHTML =
-    numbers.map((number, index) => {
-      return `
-        <div class="ball"
-             style="animation-delay:${index * .12}s">
-          ${String(number).padStart(2,"0")}
-        </div>
-      `;
-    }).join("");
-  document.getElementById("special").textContent =
-    String(special).padStart(2,"0");
-  document.getElementById("reasons").innerHTML =
-    numbers.map(number => {
-      return `
-        <div class="reason">
-          <div class="reason-ball">
+  /* ----------------------------------
+     SHOW NUMBERS
+     ---------------------------------- */
+  document.getElementById(
+    "numbers"
+  ).innerHTML =
+    numbers.map(
+      (number, index) => {
+        return `
+          <div
+            class="ball"
+            style="
+              animation-delay:
+              ${index * 0.14}s
+            "
+          >
             ${String(number).padStart(2,"0")}
           </div>
-          <div class="reason-text">
-            <strong>${String(number).padStart(2,"0")}</strong>
-            được chọn vì
-            ${reasonFor(
-              number,
-              shortFreq,
-              longFreq
-            )}.
+        `;
+      }
+    ).join("");
+  document.getElementById(
+    "special"
+  ).textContent =
+    String(special).padStart(
+      2,
+      "0"
+    );
+  /* ----------------------------------
+     REASONS
+     ---------------------------------- */
+  document.getElementById(
+    "reasons"
+  ).innerHTML =
+    numbers.map(
+      number => {
+        return `
+          <div class="reason">
+            <div class="reason-ball">
+              ${String(number).padStart(2,"0")}
+            </div>
+            <div class="reason-text">
+              <strong>
+                ${String(number).padStart(2,"0")}
+              </strong>
+              được chọn vì
+              ${reasonFor(
+                number,
+                shortFreq,
+                longFreq
+              )}.
+            </div>
           </div>
-        </div>
-      `;
-    }).join("");
-  /* SPECIAL REASON */
+        `;
+      }
+    ).join("");
+  /* ----------------------------------
+     SPECIAL REASON
+     ---------------------------------- */
   const specialShort =
     shortSpecialFreq[special];
   const specialLong =
     longSpecialFreq[special];
   let specialReason =
     "được dữ liệu lịch sử đưa vào quá trình lựa chọn";
-  if (specialShort > specialLong / 2) {
+  if (
+    specialShort >
+    specialLong / 2
+  ) {
     specialReason =
       "có tần suất xuất hiện khá đáng chú ý gần đây";
   }
-  document.getElementById("reasons").innerHTML += `
+  document.getElementById(
+    "reasons"
+  ).innerHTML += `
     <div class="reason">
       <div class="reason-ball">
         ${String(special).padStart(2,"0")}
       </div>
-      <div class="reason-text reason-special">
-        <strong>Số đặc biệt ${String(special).padStart(2,"0")}</strong>
-        được chọn vì ${specialReason}.
+      <div class="reason-text special-reason">
+        <strong>
+          Số đặc biệt
+          ${String(special).padStart(2,"0")}
+        </strong>
+        được chọn vì
+        ${specialReason}.
       </div>
     </div>
   `;
-  document.getElementById("dataCount").textContent =
+  document.getElementById(
+    "dataCount"
+  ).textContent =
     history.length;
-  result.classList.remove("hidden");
-  app.classList.remove("running");
+  /* ----------------------------------
+     FINISH
+     ---------------------------------- */
+  result.classList.remove(
+    "hidden"
+  );
+  app.classList.remove(
+    "running"
+  );
   status.textContent =
-    "🎉 Bộ số đã được chốt.";
+    "🎉 Bộ số đã được chốt!";
   button.disabled = false;
 }
-function wait(ms) {
-  return new Promise(
-    resolve => setTimeout(resolve, ms)
-  );
-}
-/* =========================
+/* ==================================================
    START
-   ========================= */
-loadHistory().catch(() => {
-  document.getElementById("status").textContent =
-    "Không thể tải dữ liệu lịch sử.";
-});
+   ================================================== */
+loadHistory().catch(
+  error => {
+    console.error(error);
+    document.getElementById(
+      "status"
+    ).textContent =
+      "Không thể tải dữ liệu lịch sử.";
+  }
+);
 </script>
 </body>
 </html>
