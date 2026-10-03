@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b12">
+<meta name="theme-color" content="#12080a">
 <title>LOKA-535</title>
 <style>
 * {
@@ -12,357 +12,472 @@
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-               "Segoe UI", sans-serif;
+    "Segoe UI", sans-serif;
   color: #fff;
   background:
-    radial-gradient(circle at 50% 12%, #283650 0%, #101827 38%, #04060b 80%);
-  overflow-x: hidden;
+    radial-gradient(circle at 50% 18%, #49302c 0%, #20151a 35%, #08090e 78%);
 }
 .container {
-  width: min(680px, 92%);
+  width: min(680px, 94%);
   margin: auto;
-  padding: 28px 0 55px;
+  padding: 24px 0 55px;
 }
 .header {
   text-align: center;
 }
 .logo {
-  font-size: 12px;
+  color: #e7c98b;
+  font-size: 11px;
+  font-weight: 900;
   letter-spacing: 5px;
-  color: #9aaac0;
-  font-weight: 800;
 }
 .title {
-  font-size: 34px;
-  font-weight: 900;
   margin-top: 7px;
+  font-size: 32px;
+  font-weight: 950;
   letter-spacing: -1px;
 }
 .subtitle {
-  color: #8998ad;
-  font-size: 13px;
   margin-top: 5px;
+  color: #aa9c9c;
+  font-size: 12px;
 }
-/* ==================================================
-   LUCKY CAT
-   ================================================== */
-.cat-area {
+/* =====================================================
+   JAPANESE CHIBI MANEKI NEKO
+   ===================================================== */
+.cat-stage {
   position: relative;
-  height: 215px;
+  height: 330px;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
-.cat-wrap {
-  position: relative;
-  width: 180px;
-  height: 190px;
-  animation: catFloat 3s ease-in-out infinite;
-}
-.cat-shadow {
-  position: absolute;
-  left: 31px;
-  bottom: 4px;
-  width: 118px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(0,0,0,.35);
-  filter: blur(7px);
-  animation: shadowMove 3s ease-in-out infinite;
-}
-.cat-body {
-  position: absolute;
-  left: 35px;
-  bottom: 17px;
-  width: 110px;
-  height: 105px;
-  border-radius: 50px 50px 42px 42px;
-  background: linear-gradient(145deg, #ffd65c, #e69a22);
-  border: 3px solid #a96317;
-  box-shadow:
-    inset -8px -10px 0 rgba(150,80,10,.12),
-    0 12px 25px rgba(0,0,0,.25);
-}
-.cat-belly {
-  position: absolute;
-  left: 21px;
-  top: 35px;
-  width: 64px;
-  height: 59px;
-  border-radius: 50%;
-  background: #fff0bd;
-  border: 2px solid rgba(166,101,21,.25);
-}
-.cat-head {
-  position: absolute;
-  left: 34px;
-  top: 27px;
-  width: 112px;
-  height: 93px;
-  border-radius: 48% 48% 45% 45%;
-  background: linear-gradient(145deg, #ffe06d, #efa72b);
-  border: 3px solid #a96317;
-  z-index: 5;
-  box-shadow: 0 8px 18px rgba(0,0,0,.25);
-}
-.ear {
-  position: absolute;
-  width: 43px;
-  height: 45px;
-  background: #f5b532;
-  border: 3px solid #a96317;
-  top: -25px;
-  z-index: -1;
-}
-.ear.left {
-  left: 5px;
-  transform: rotate(-22deg);
-  border-radius: 9px 35px 8px 30px;
-}
-.ear.right {
-  right: 5px;
-  transform: rotate(22deg);
-  border-radius: 35px 9px 30px 8px;
-}
-.inner-ear {
-  position: absolute;
-  inset: 8px;
-  background: #f49a78;
-  border-radius: inherit;
-}
-.eye {
-  position: absolute;
-  top: 39px;
-  width: 13px;
-  height: 17px;
-  background: #26180d;
-  border-radius: 50%;
-}
-.eye.left {
-  left: 29px;
-}
-.eye.right {
-  right: 29px;
-}
-.eye::after {
+.cat-stage::before {
   content: "";
   position: absolute;
-  width: 4px;
-  height: 5px;
-  background: #fff;
+  width: 230px;
+  height: 230px;
   border-radius: 50%;
-  left: 3px;
-  top: 2px;
+  background: radial-gradient(
+    circle,
+    rgba(255,204,94,.17),
+    transparent 68%
+  );
+  filter: blur(10px);
 }
+.cat {
+  position: relative;
+  width: 210px;
+  height: 260px;
+  transform-origin: 50% 88%;
+  z-index: 5;
+  animation: idleFloat 3s ease-in-out infinite;
+}
+/* EARS */
+.ear {
+  position: absolute;
+  top: 19px;
+  width: 62px;
+  height: 67px;
+  background: linear-gradient(145deg,#fffaf0,#e9e1d5);
+  border: 4px solid #33272a;
+  z-index: 1;
+}
+.ear.left {
+  left: 29px;
+  border-radius: 15px 48px 10px 45px;
+  transform: rotate(-20deg);
+}
+.ear.right {
+  right: 29px;
+  border-radius: 48px 15px 45px 10px;
+  transform: rotate(20deg);
+}
+.ear::after {
+  content: "";
+  position: absolute;
+  width: 31px;
+  height: 36px;
+  top: 13px;
+  left: 13px;
+  background: #efb1aa;
+  border-radius: 50%;
+}
+/* HEAD */
+.head {
+  position: absolute;
+  top: 43px;
+  left: 20px;
+  width: 170px;
+  height: 142px;
+  border-radius: 48% 48% 44% 44%;
+  background:
+    radial-gradient(circle at 35% 27%, #fffdf8 0 12%, transparent 13%),
+    linear-gradient(145deg,#fffdf8,#e9e1d7);
+  border: 4px solid #33272a;
+  z-index: 3;
+  box-shadow:
+    0 12px 25px rgba(0,0,0,.35),
+    inset -7px -8px 0 rgba(130,105,90,.08);
+}
+/* RED HEAD PATCH */
+.patch {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  width: 65px;
+  height: 55px;
+  border-radius: 0 40px 50px 30px;
+  background: #c84c48;
+  opacity: .95;
+}
+/* EYES */
+.eye {
+  position: absolute;
+  top: 57px;
+  width: 23px;
+  height: 29px;
+  border-radius: 50%;
+  background: #21171a;
+}
+.eye.left {
+  left: 42px;
+}
+.eye.right {
+  right: 42px;
+}
+.eye::before {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 9px;
+  border-radius: 50%;
+  background: white;
+  left: 5px;
+  top: 4px;
+}
+/* CHEEKS */
+.cheek {
+  position: absolute;
+  top: 91px;
+  width: 25px;
+  height: 13px;
+  border-radius: 50%;
+  background: rgba(236,117,106,.45);
+}
+.cheek.left {
+  left: 17px;
+}
+.cheek.right {
+  right: 17px;
+}
+/* NOSE + MOUTH */
 .nose {
   position: absolute;
-  top: 58px;
-  left: 49px;
-  width: 14px;
-  height: 10px;
-  background: #d97861;
+  top: 83px;
+  left: 74px;
+  width: 21px;
+  height: 15px;
+  background: #d87972;
   border-radius: 50%;
 }
 .mouth {
   position: absolute;
-  top: 66px;
-  left: 48px;
-  width: 17px;
-  height: 9px;
-  border-bottom: 3px solid #522818;
-  border-radius: 50%;
+  left: 67px;
+  top: 96px;
+  width: 37px;
+  height: 28px;
+  border-bottom: 5px solid #342124;
+  border-radius: 0 0 50% 50%;
 }
-.cheek {
+.mouth::before,
+.mouth::after {
+  content: "";
   position: absolute;
-  top: 60px;
-  width: 17px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(231,102,71,.35);
+  top: -2px;
+  width: 16px;
+  height: 10px;
+  border-bottom: 3px solid #342124;
 }
-.cheek.left {
-  left: 11px;
+.mouth::before {
+  left: -3px;
+  transform: rotate(20deg);
 }
-.cheek.right {
-  right: 11px;
+.mouth::after {
+  right: -3px;
+  transform: rotate(-20deg);
 }
+/* WHISKERS */
 .whisker {
   position: absolute;
-  width: 30px;
-  height: 1px;
-  background: #82501c;
-  top: 67px;
+  width: 43px;
+  height: 2px;
+  background: #796a68;
+  top: 94px;
 }
-.whisker.w1 {
-  left: -18px;
-  transform: rotate(-10deg);
-}
-.whisker.w2 {
-  left: -18px;
-  top: 74px;
-  transform: rotate(8deg);
-}
-.whisker.w3 {
-  right: -18px;
-  transform: rotate(10deg);
-}
-.whisker.w4 {
-  right: -18px;
-  top: 74px;
+.w1 {
+  left: -27px;
   transform: rotate(-8deg);
 }
-/* Raised paw */
-.paw {
+.w2 {
+  left: -27px;
+  top: 106px;
+  transform: rotate(8deg);
+}
+.w3 {
+  right: -27px;
+  transform: rotate(8deg);
+}
+.w4 {
+  right: -27px;
+  top: 106px;
+  transform: rotate(-8deg);
+}
+/* BODY */
+.body {
   position: absolute;
-  z-index: 7;
-  right: -12px;
-  top: 65px;
-  width: 43px;
-  height: 54px;
+  left: 38px;
+  bottom: 14px;
+  width: 135px;
+  height: 115px;
+  border-radius: 60px 60px 42px 42px;
+  background: linear-gradient(145deg,#fffdf8,#ddd4c9);
+  border: 4px solid #33272a;
+  z-index: 2;
+}
+/* BELLY */
+.belly {
+  position: absolute;
+  left: 28px;
+  top: 23px;
+  width: 74px;
+  height: 77px;
   border-radius: 50%;
-  background: linear-gradient(145deg, #ffd963, #e89d25);
-  border: 3px solid #a96317;
+  background: #fffaf0;
+  border: 2px solid rgba(90,70,65,.12);
+}
+/* RED COLLAR */
+.collar {
+  position: absolute;
+  left: 25px;
+  top: 0;
+  width: 84px;
+  height: 27px;
+  background: #bf393b;
+  border-radius: 0 0 20px 20px;
+  z-index: 5;
+}
+.collar::after {
+  content: "鈴";
+  position: absolute;
+  left: 31px;
+  top: 3px;
+  color: #ffd86a;
+  font-size: 15px;
+  font-weight: 900;
+}
+/* LEFT PAW */
+.paw-left {
+  position: absolute;
+  left: 3px;
+  top: 101px;
+  width: 57px;
+  height: 72px;
+  background: linear-gradient(145deg,#fffdf8,#e1d8cd);
+  border: 4px solid #33272a;
+  border-radius: 50%;
+  transform: rotate(-22deg);
+  z-index: 7;
+}
+/* RIGHT WAVING PAW */
+.paw-right {
+  position: absolute;
+  right: -3px;
+  top: 75px;
+  width: 59px;
+  height: 82px;
+  background: linear-gradient(145deg,#fffdf8,#e1d8cd);
+  border: 4px solid #33272a;
+  border-radius: 50%;
   transform-origin: 50% 90%;
-  animation: pawWave 1.8s ease-in-out infinite;
+  z-index: 7;
+  animation: luckyWave 1.35s ease-in-out infinite;
 }
 .paw-line {
   position: absolute;
   width: 4px;
-  height: 12px;
+  height: 18px;
   border-radius: 5px;
-  background: #a96317;
-  bottom: 8px;
+  background: #8b7771;
+  bottom: 11px;
 }
-.paw-line.p1 {
-  left: 10px;
-  transform: rotate(-12deg);
+.paw-line.one {
+  left: 14px;
+  transform: rotate(-8deg);
 }
-.paw-line.p2 {
-  left: 18px;
-}
-.paw-line.p3 {
+.paw-line.two {
   left: 26px;
-  transform: rotate(12deg);
 }
-/* Coin */
+.paw-line.three {
+  left: 38px;
+  transform: rotate(8deg);
+}
+/* COIN */
 .coin {
   position: absolute;
-  z-index: 8;
-  left: 6px;
-  top: 94px;
-  width: 43px;
-  height: 43px;
+  right: -13px;
+  bottom: 29px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
-  background: linear-gradient(145deg, #ffe987, #c58b19);
-  border: 3px solid #a16b12;
+  background:
+    radial-gradient(circle,#ffe58b 0 55%,#c98d20 56% 100%);
+  border: 4px solid #8d6418;
+  z-index: 8;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a16b12;
+  color: #996b18;
+  font-size: 27px;
   font-weight: 900;
-  font-size: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,.3);
-  animation: coinFloat 2s ease-in-out infinite;
+  box-shadow: 0 8px 18px rgba(0,0,0,.3);
+  transform: rotate(-12deg);
 }
-/* Red lucky envelope */
-.envelope {
+/* KANJI */
+.coin::after {
+  content: "招福";
+  font-size: 12px;
   position: absolute;
-  z-index: 9;
-  left: 63px;
-  bottom: 20px;
-  width: 54px;
-  height: 39px;
-  border-radius: 5px;
-  background: linear-gradient(145deg, #d94b40, #9e2527);
-  border: 2px solid #75191d;
-  transform: rotate(-4deg);
-  box-shadow: 0 6px 13px rgba(0,0,0,.25);
+  color: #8f651a;
 }
-.envelope::before {
+/* LITTLE RED BIB */
+.bib {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 40px;
+  background: #c43d3e;
+  clip-path: polygon(0 0,100% 0,78% 100%,22% 100%);
+  z-index: 6;
+}
+.bib::after {
   content: "福";
   position: absolute;
-  inset: 0;
+  inset: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffd66b;
+  font-size: 23px;
+  font-weight: 900;
+}
+/* LUCKY BALLS */
+.output {
+  position: absolute;
+  z-index: 12;
+  left: 50%;
+  top: 141px;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+.fly-ball {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 42px;
+  height: 42px;
+  margin-left: -21px;
+  margin-top: -21px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffd966;
-  font-size: 21px;
+  background: linear-gradient(145deg,#fff,#c8d3df);
+  color: #0b111a;
+  font-size: 13px;
   font-weight: 900;
+  border: 2px solid rgba(0,0,0,.18);
+  box-shadow: 0 8px 20px rgba(0,0,0,.4);
+  animation: spitBall 1.15s cubic-bezier(.18,.9,.25,1) forwards;
 }
-.envelope::after {
-  content: "";
-  position: absolute;
-  left: 9px;
-  right: 9px;
-  top: 0;
-  height: 20px;
-  border-bottom: 2px solid rgba(255,215,90,.45);
-  transform: skewY(25deg);
+@keyframes spitBall {
+  0% {
+    opacity: 0;
+    transform:
+      translate(0,0)
+      scale(.15)
+      rotate(0deg);
+  }
+  18% {
+    opacity: 1;
+    transform:
+      translate(0,-5px)
+      scale(1.05)
+      rotate(25deg);
+  }
+  100% {
+    opacity: 1;
+    transform:
+      translate(var(--x),var(--y))
+      scale(1)
+      rotate(360deg);
+  }
 }
-/* Sparkles */
+/* SPARKLES */
 .spark {
   position: absolute;
-  font-size: 18px;
-  color: #ffe486;
+  color: #ffd96b;
+  font-size: 19px;
+  z-index: 2;
   animation: sparkle 1.8s ease-in-out infinite;
 }
 .s1 {
-  left: 19%;
-  top: 30%;
+  left: 17%;
+  top: 28%;
 }
 .s2 {
-  right: 20%;
-  top: 22%;
-  animation-delay: .5s;
+  right: 18%;
+  top: 20%;
+  animation-delay: .4s;
 }
 .s3 {
-  left: 25%;
-  bottom: 12%;
-  animation-delay: 1s;
-}
-.s4 {
-  right: 25%;
+  left: 23%;
   bottom: 16%;
   animation-delay: .8s;
 }
-@keyframes catFloat {
+.s4 {
+  right: 23%;
+  bottom: 12%;
+  animation-delay: 1.2s;
+}
+/* CAT IDLE */
+@keyframes idleFloat {
   0%,100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-7px);
+    transform: translateY(-6px);
   }
 }
-@keyframes shadowMove {
+@keyframes luckyWave {
   0%,100% {
-    transform: scaleX(1);
-    opacity: .45;
+    transform: rotate(12deg);
   }
   50% {
-    transform: scaleX(.8);
-    opacity: .25;
-  }
-}
-@keyframes pawWave {
-  0%,100% {
-    transform: rotate(7deg);
-  }
-  50% {
-    transform: rotate(23deg);
-  }
-}
-@keyframes coinFloat {
-  0%,100% {
-    transform: translateY(0) rotate(0);
-  }
-  50% {
-    transform: translateY(-5px) rotate(8deg);
+    transform: rotate(35deg);
   }
 }
 @keyframes sparkle {
   0%,100% {
-    opacity: .2;
+    opacity: .25;
     transform: scale(.7);
   }
   50% {
@@ -370,55 +485,109 @@ body {
     transform: scale(1.25);
   }
 }
-/* ==================================================
+/* =====================================================
+   CLICK / SPIN
+   ===================================================== */
+.spinning .cat {
+  animation:
+    catSpin 1.25s cubic-bezier(.45,0,.55,1) infinite;
+}
+.spinning .paw-right {
+  animation:
+    pawCrazy .28s ease-in-out infinite;
+}
+.spinning .coin {
+  animation:
+    coinSpin .35s linear infinite;
+}
+.spinning .cat-stage {
+  cursor: wait;
+}
+@keyframes catSpin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(-5deg) scale(1.04);
+  }
+  50% {
+    transform: rotate(5deg) scale(1.04);
+  }
+  75% {
+    transform: rotate(-4deg) scale(1.03);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+@keyframes pawCrazy {
+  0% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(48deg);
+  }
+  100% {
+    transform: rotate(5deg);
+  }
+}
+@keyframes coinSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* =====================================================
    BUTTON
-   ================================================== */
-button {
+   ===================================================== */
+.button {
   width: 100%;
-  padding: 18px;
   border: 0;
   border-radius: 18px;
-  background: linear-gradient(135deg, #fff, #ccd8e6);
-  color: #08101d;
+  padding: 18px;
+  background: linear-gradient(135deg,#fff,#d4dce5);
+  color: #10141b;
   font-size: 16px;
-  font-weight: 900;
+  font-weight: 950;
   letter-spacing: 1px;
-  cursor: pointer;
   box-shadow: 0 12px 35px rgba(0,0,0,.35);
+  cursor: pointer;
   transition: .2s;
 }
-button:active {
+.button:active {
   transform: scale(.97);
 }
-button:disabled {
-  opacity: .7;
+.button:disabled {
+  opacity: .6;
 }
-/* ==================================================
+/* =====================================================
    STATUS
-   ================================================== */
+   ===================================================== */
 .status {
   height: 30px;
+  margin-top: 13px;
   text-align: center;
-  margin-top: 15px;
-  color: #a1b0c3;
+  color: #b3a7a4;
   font-size: 13px;
 }
-/* ==================================================
+/* =====================================================
    RESULT
-   ================================================== */
+   ===================================================== */
 .result {
   margin-top: 14px;
   padding: 23px;
   border-radius: 25px;
-  background: rgba(13,20,32,.88);
+  background: rgba(16,20,29,.9);
   border: 1px solid rgba(255,255,255,.08);
-  box-shadow: 0 20px 55px rgba(0,0,0,.32);
-  animation: resultAppear .8s ease;
+  box-shadow: 0 20px 55px rgba(0,0,0,.35);
+  animation: resultIn .7s ease;
 }
-@keyframes resultAppear {
+@keyframes resultIn {
   from {
     opacity: 0;
-    transform: translateY(20px) scale(.95);
+    transform: translateY(20px) scale(.94);
   }
   to {
     opacity: 1;
@@ -427,11 +596,11 @@ button:disabled {
 }
 .result-title {
   text-align: center;
-  color: #9eafc4;
+  color: #b2a9aa;
   font-size: 11px;
   letter-spacing: 3px;
-  font-weight: 800;
-  margin-bottom: 19px;
+  font-weight: 900;
+  margin-bottom: 18px;
 }
 .numbers {
   display: flex;
@@ -444,19 +613,19 @@ button:disabled {
   height: 51px;
   border-radius: 50%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: linear-gradient(145deg, #fff, #bdcad8);
-  color: #09111e;
+  align-items: center;
+  background: linear-gradient(145deg,#fff,#c3cfdb);
+  color: #0b1119;
   font-size: 17px;
-  font-weight: 900;
-  box-shadow: 0 8px 22px rgba(0,0,0,.35);
-  animation: ballIn .55s cubic-bezier(.2,1.5,.4,1) both;
+  font-weight: 950;
+  box-shadow: 0 8px 22px rgba(0,0,0,.4);
+  animation: ballReveal .55s cubic-bezier(.2,1.5,.4,1) both;
 }
-@keyframes ballIn {
+@keyframes ballReveal {
   from {
     opacity: 0;
-    transform: scale(.2) rotate(-30deg);
+    transform: scale(.15) rotate(-180deg);
   }
   to {
     opacity: 1;
@@ -464,59 +633,59 @@ button:disabled {
   }
 }
 .special-box {
+  margin-top: 23px;
   text-align: center;
-  margin-top: 24px;
 }
 .special-label {
-  color: #a6b4c6;
+  margin-bottom: 8px;
+  color: #b2a9aa;
   font-size: 10px;
   letter-spacing: 2px;
-  margin-bottom: 8px;
 }
 .special {
   width: 57px;
   height: 57px;
   margin: auto;
-  border-radius: 50%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: linear-gradient(145deg, #f2d47e, #a97820);
+  align-items: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg,#f4d77f,#a9781f);
   color: #fff;
   font-size: 18px;
-  font-weight: 900;
-  box-shadow: 0 8px 26px rgba(200,150,50,.3);
-  animation: specialIn .8s cubic-bezier(.2,1.5,.4,1) both;
+  font-weight: 950;
+  box-shadow: 0 8px 25px rgba(210,160,45,.3);
+  animation: specialReveal .8s cubic-bezier(.2,1.5,.4,1) both;
 }
-@keyframes specialIn {
+@keyframes specialReveal {
   from {
     opacity: 0;
-    transform: scale(.1) rotate(180deg);
+    transform: scale(.1) rotate(360deg);
   }
   to {
     opacity: 1;
     transform: scale(1) rotate(0);
   }
 }
-/* ==================================================
+/* =====================================================
    ANALYSIS
-   ================================================== */
+   ===================================================== */
 .analysis {
-  margin-top: 18px;
+  margin-top: 19px;
 }
 .analysis-title {
+  color: #9e9697;
   font-size: 11px;
-  color: #94a5ba;
   letter-spacing: 2px;
-  font-weight: 800;
-  margin-bottom: 10px;
+  font-weight: 900;
+  margin-bottom: 9px;
 }
 .reason {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(255,255,255,.055);
 }
 .reason:last-child {
   border-bottom: 0;
@@ -525,16 +694,16 @@ button:disabled {
   width: 36px;
   height: 36px;
   flex-shrink: 0;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,.09);
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
   font-size: 12px;
   font-weight: 900;
 }
 .reason-text {
-  color: #c2ccda;
+  color: #c4cbd5;
   font-size: 13px;
   line-height: 1.45;
 }
@@ -542,86 +711,31 @@ button:disabled {
   color: #fff;
 }
 .special-reason {
-  color: #d8bf75;
+  color: #d8be72;
 }
-/* ==================================================
-   INFO
-   ================================================== */
+/* INFO */
 .info {
-  margin-top: 17px;
-  padding: 16px;
-  border-radius: 18px;
+  margin-top: 16px;
+  padding: 15px;
+  border-radius: 17px;
   background: rgba(255,255,255,.035);
-  color: #8191a6;
+  color: #817e83;
   font-size: 11px;
   line-height: 1.6;
   text-align: center;
 }
-/* ==================================================
-   RUNNING EFFECT
-   ================================================== */
-.running .cat-wrap {
-  animation:
-    catFloat .7s ease-in-out infinite,
-    catShake .13s linear infinite;
-}
-.running .paw {
-  animation:
-    pawWave .35s ease-in-out infinite;
-}
-.running .coin {
-  animation:
-    coinFloat .4s ease-in-out infinite;
-}
-.running .envelope {
-  animation:
-    envelopeShake .3s ease-in-out infinite;
-}
-.running button {
-  animation: buttonPulse .9s ease-in-out infinite;
-}
-@keyframes catShake {
-  0% {
-    transform: translateX(-3px) rotate(-1deg);
-  }
-  50% {
-    transform: translateX(3px) rotate(1deg);
-  }
-  100% {
-    transform: translateX(-3px) rotate(-1deg);
-  }
-}
-@keyframes envelopeShake {
-  0%,100% {
-    transform: rotate(-4deg);
-  }
-  50% {
-    transform: rotate(4deg);
-  }
-}
-@keyframes buttonPulse {
-  0%,100% {
-    box-shadow: 0 10px 30px rgba(255,255,255,.08);
-  }
-  50% {
-    box-shadow: 0 10px 40px rgba(255,255,255,.35);
-  }
-}
-/* ==================================================
-   RESPONSIVE
-   ================================================== */
-@media (max-width: 450px) {
+/* MOBILE */
+@media (max-width:450px) {
   .container {
     width: 94%;
-    padding-top: 23px;
   }
   .title {
     font-size: 29px;
   }
-  .cat-area {
-    height: 205px;
+  .cat-stage {
+    height: 305px;
   }
-  .cat-wrap {
+  .cat {
     transform: scale(.9);
   }
   .ball {
@@ -645,91 +759,111 @@ button:disabled {
   NUMBER ORACLE
 </div>
 <div class="subtitle">
-  Một bộ số tham chiếu cho kỳ tiếp theo
+  Chạm vào mèo thần tài để chọn số
 </div>
   </div>
-  <!-- =========================
-       LUCKY CAT
-       ========================= -->
-  <div class="cat-area">
+  <!-- =================================================
+       CAT
+       ================================================= -->
+  <div
+    class="cat-stage"
+    id="catStage"
+    onclick="generate()"
+  >
 <div class="spark s1">✦</div>
 <div class="spark s2">✧</div>
-<div class="spark s3">✦</div>
-<div class="spark s4">✨</div>
-<div class="cat-wrap">
-  <div class="cat-shadow"></div>
-  <div class="cat-body">
-    <div class="cat-belly"></div>
+<div class="spark s3">✨</div>
+<div class="spark s4">✦</div>
+<div class="cat">
+  <div class="ear left"></div>
+  <div class="ear right"></div>
+  <div class="body">
+    <div class="belly"></div>
+    <div class="collar"></div>
+    <div class="bib"></div>
   </div>
-  <div class="cat-head">
-    <div class="ear left">
-      <div class="inner-ear"></div>
-    </div>
-    <div class="ear right">
-      <div class="inner-ear"></div>
-    </div>
+  <div class="head">
+    <div class="patch"></div>
     <div class="eye left"></div>
     <div class="eye right"></div>
-    <div class="nose"></div>
-    <div class="mouth"></div>
     <div class="cheek left"></div>
     <div class="cheek right"></div>
+    <div class="nose"></div>
+    <div class="mouth"></div>
     <div class="whisker w1"></div>
     <div class="whisker w2"></div>
     <div class="whisker w3"></div>
     <div class="whisker w4"></div>
   </div>
-  <div class="paw">
-    <div class="paw-line p1"></div>
-    <div class="paw-line p2"></div>
-    <div class="paw-line p3"></div>
+  <div class="paw-left"></div>
+  <div class="paw-right">
+    <div class="paw-line one"></div>
+    <div class="paw-line two"></div>
+    <div class="paw-line three"></div>
   </div>
   <div class="coin">
-    $
+    円
   </div>
-  <div class="envelope"></div>
+  <div
+    class="output"
+    id="output"
+  ></div>
 </div>
   </div>
-  <!-- =========================
+  <!-- =================================================
        BUTTON
-       ========================= -->
-✨ CHỌN BỘ SỐ ✨
+       ================================================= -->
+
+<button
+class=“button”
+id=“generateButton”
+onclick=“generate()”
+
+🧧 NHẤP ĐỂ MÈO NHẢ SỐ 🧧
   </button>
-  <div id="status" class="status">
-    🐱 Mèo thần tài đang chờ lệnh...
+  <div
+    class="status"
+    id="status"
+  >
+    🐱 Mèo đang chờ Loka...
   </div>
-  <!-- =========================
+  <!-- =================================================
        RESULT
-       ========================= -->
-  <div id="result" class="result hidden">
+       ================================================= -->
+  <div
+    class="result hidden"
+    id="result"
+  >
 <div class="result-title">
-  BỘ SỐ THAM CHIẾU
+  🎯 BỘ SỐ THAM CHIẾU
 </div>
-<div id="numbers"
-     class="numbers">
-</div>
+<div
+  class="numbers"
+  id="numbers"
+></div>
 <div class="special-box">
   <div class="special-label">
-    SỐ ĐẶC BIỆT
+    ✨ SỐ ĐẶC BIỆT
   </div>
-  <div id="special"
-       class="special">
+  <div
+    class="special"
+    id="special"
+  >
     --
   </div>
 </div>
-<!-- =========================
-     ANALYSIS
-     ========================= -->
 <div class="analysis">
   <div class="analysis-title">
-    VÌ SAO CHỌN NHỮNG SỐ NÀY?
+    🐾 VÌ SAO CHỌN NHỮNG SỐ NÀY?
   </div>
   <div id="reasons"></div>
 </div>
 <div class="info">
-  Phân tích dựa trên lịch sử các kỳ gần đây.
-  Bộ số được chọn ngẫu nhiên có tham chiếu dữ liệu,
-  không phải dự đoán chắc chắn kết quả.
+  Hệ thống tham khảo dữ liệu các kỳ gần đây
+  để chọn bộ số.
+  <br><br>
+  Đây là bộ số tham chiếu, không phải
+  dự đoán chắc chắn kết quả.
   <br><br>
   Dữ liệu:
   <strong id="dataCount">--</strong>
@@ -738,15 +872,16 @@ button:disabled {
   </div>
 </div>
 <script>
-/* ==================================================
+/* =====================================================
    SETTINGS
-   ================================================== */
+   ===================================================== */
 const SHORT_WINDOW = 50;
 const LONG_WINDOW = 100;
 let history = [];
-/* ==================================================
-   LOAD HISTORY
-   ================================================== */
+let busy = false;
+/* =====================================================
+   LOAD DATA
+   ===================================================== */
 async function loadHistory() {
   const response =
     await fetch(
@@ -759,7 +894,7 @@ async function loadHistory() {
   }
   history = await response.json();
   history.sort(
-    (a, b) => a.id - b.id
+    (a,b) => a.id - b.id
   );
   document.getElementById(
     "status"
@@ -768,9 +903,9 @@ async function loadHistory() {
     history.length +
     " kỳ dữ liệu";
 }
-/* ==================================================
+/* =====================================================
    FREQUENCY
-   ================================================== */
+   ===================================================== */
 function frequency(
   records,
   max,
@@ -778,13 +913,15 @@ function frequency(
 ) {
   const result = {};
   for (
-    let number = 1;
-    number <= max;
-    number++
+    let i = 1;
+    i <= max;
+    i++
   ) {
-    result[number] = 0;
+    result[i] = 0;
   }
-  for (const record of records) {
+  for (
+    const record of records
+  ) {
     if (special) {
       if (
         result[record.special] !== undefined
@@ -805,9 +942,9 @@ function frequency(
   }
   return result;
 }
-/* ==================================================
+/* =====================================================
    WEIGHTS
-   ================================================== */
+   ===================================================== */
 function weights(
   freq,
   window,
@@ -818,14 +955,14 @@ function weights(
     window * perDraw / max;
   const result = {};
   for (
-    let number = 1;
-    number <= max;
-    number++
+    let i = 1;
+    i <= max;
+    i++
   ) {
-    result[number] =
+    result[i] =
       Math.max(
-        freq[number] / expected,
-        0.01
+        freq[i] / expected,
+        .01
       );
   }
   return result;
@@ -837,19 +974,19 @@ function blend(
 ) {
   const result = {};
   for (
-    let number = 1;
-    number <= max;
-    number++
+    let i = 1;
+    i <= max;
+    i++
   ) {
-    result[number] =
-      shortWeights[number] * 0.5 +
-      longWeights[number] * 0.5;
+    result[i] =
+      shortWeights[i] * .5 +
+      longWeights[i] * .5;
   }
   return result;
 }
-/* ==================================================
-   SECURE RANDOM
-   ================================================== */
+/* =====================================================
+   RANDOM
+   ===================================================== */
 function randomNumber() {
   const array =
     new Uint32Array(1);
@@ -895,12 +1032,12 @@ function weightedPick(
     }
   }
   return selected.sort(
-    (a, b) => a - b
+    (a,b) => a-b
   );
 }
-/* ==================================================
-   SIMPLE EXPLANATION
-   ================================================== */
+/* =====================================================
+   SIMPLE REASON
+   ===================================================== */
 function reasonFor(
   number,
   shortFreq,
@@ -922,47 +1059,66 @@ function reasonFor(
     shortRatio > 1.15 &&
     shortRatio > longRatio
   ) {
-    return (
-      "xuất hiện khá nổi bật " +
-      "trong các kỳ gần đây"
-    );
+    return "xuất hiện khá nổi bật trong các kỳ gần đây";
   }
   if (
     shortRatio > 1.05
   ) {
-    return (
-      "có tần suất tốt " +
-      "trong dữ liệu gần đây"
-    );
+    return "có tần suất tốt trong dữ liệu gần đây";
   }
   if (
     longRatio > 1.05
   ) {
-    return (
-      "có mức xuất hiện đáng chú ý " +
-      "trong dữ liệu dài hơn"
-    );
+    return "có mức xuất hiện đáng chú ý trong dữ liệu dài hơn";
   }
-  return (
-    "được dữ liệu lịch sử " +
-    "đưa vào quá trình lựa chọn"
+  return "được dữ liệu lịch sử đưa vào quá trình lựa chọn";
+}
+/* =====================================================
+   SHOOT BALLS FROM CAT
+   ===================================================== */
+function shootBall(
+  number,
+  index,
+  total
+) {
+  const output =
+    document.getElementById(
+      "output"
+    );
+  const ball =
+    document.createElement("div");
+  ball.className =
+    "fly-ball";
+  ball.textContent =
+    String(number).padStart(2,"0");
+  const spread =
+    (index - (total - 1) / 2) * 54;
+  const vertical =
+    -150 -
+    Math.abs(
+      index - (total - 1) / 2
+    ) * 10;
+  ball.style.setProperty(
+    "--x",
+    spread + "px"
+  );
+  ball.style.setProperty(
+    "--y",
+    vertical + "px"
+  );
+  output.appendChild(ball);
+  setTimeout(
+    () => ball.remove(),
+    1300
   );
 }
-/* ==================================================
-   WAIT
-   ================================================== */
-function wait(ms) {
-  return new Promise(
-    resolve => setTimeout(
-      resolve,
-      ms
-    )
-  );
-}
-/* ==================================================
+/* =====================================================
    GENERATE
-   ================================================== */
+   ===================================================== */
 async function generate() {
+  if (busy) {
+    return;
+  }
   if (
     history.length < LONG_WINDOW
   ) {
@@ -971,9 +1127,14 @@ async function generate() {
     );
     return;
   }
+  busy = true;
   const app =
     document.getElementById(
       "app"
+    );
+  const stage =
+    document.getElementById(
+      "catStage"
     );
   const button =
     document.getElementById(
@@ -992,26 +1153,23 @@ async function generate() {
     "hidden"
   );
   app.classList.add(
-    "running"
+    "spinning"
   );
-  /* ----------------------------------
-     DRAMA
-     ---------------------------------- */
+  /* ==============================================
+     SUSPENSE
+     ============================================== */
   status.textContent =
-    "🐱 Đang xem xét dữ liệu...";
-  await wait(650);
+    "🐱 Mèo thần tài đang suy nghĩ...";
+  await wait(700);
   status.textContent =
-    "✨ Đang tìm những con số nổi bật...";
-  await wait(750);
-  status.textContent =
-    "🧧 Mèo thần tài đang chọn...";
-  await wait(750);
-  status.textContent =
-    "🎯 Gần chốt rồi...";
+    "🔔 Ting ting...";
   await wait(550);
-  /* ----------------------------------
-     MAIN DATA
-     ---------------------------------- */
+  status.textContent =
+    "✨ Đang gom những con số nổi bật...";
+  await wait(700);
+  /* ==============================================
+     CALCULATE
+     ============================================== */
   const shortHistory =
     history.slice(
       -SHORT_WINDOW
@@ -1055,9 +1213,7 @@ async function generate() {
       finalWeights,
       5
     );
-  /* ----------------------------------
-     SPECIAL
-     ---------------------------------- */
+  /* SPECIAL */
   const shortSpecialFreq =
     frequency(
       shortHistory,
@@ -1095,20 +1251,39 @@ async function generate() {
       finalSpecialWeights,
       1
     )[0];
-  /* ----------------------------------
-     SHOW NUMBERS
-     ---------------------------------- */
+  /* ==============================================
+     SPIT NUMBERS
+     ============================================== */
+  await wait(400);
+  numbers.forEach(
+    (number,index) => {
+      setTimeout(
+        () => {
+          shootBall(
+            number,
+            index,
+            numbers.length
+          );
+        },
+        index * 230
+      );
+    }
+  );
+  await wait(1450);
+  /* ==============================================
+     SHOW RESULT
+     ============================================== */
   document.getElementById(
     "numbers"
   ).innerHTML =
     numbers.map(
-      (number, index) => {
+      (number,index) => {
         return `
           <div
             class="ball"
             style="
               animation-delay:
-              ${index * 0.14}s
+              ${index * .12}s
             "
           >
             ${String(number).padStart(2,"0")}
@@ -1123,9 +1298,9 @@ async function generate() {
       2,
       "0"
     );
-  /* ----------------------------------
+  /* ==============================================
      REASONS
-     ---------------------------------- */
+     ============================================== */
   document.getElementById(
     "reasons"
   ).innerHTML =
@@ -1151,9 +1326,7 @@ async function generate() {
         `;
       }
     ).join("");
-  /* ----------------------------------
-     SPECIAL REASON
-     ---------------------------------- */
+  /* SPECIAL REASON */
   const specialShort =
     shortSpecialFreq[special];
   const specialLong =
@@ -1176,8 +1349,7 @@ async function generate() {
       </div>
       <div class="reason-text special-reason">
         <strong>
-          Số đặc biệt
-          ${String(special).padStart(2,"0")}
+          Đặc biệt ${String(special).padStart(2,"0")}
         </strong>
         được chọn vì
         ${specialReason}.
@@ -1188,22 +1360,33 @@ async function generate() {
     "dataCount"
   ).textContent =
     history.length;
-  /* ----------------------------------
-     FINISH
-     ---------------------------------- */
   result.classList.remove(
     "hidden"
   );
   app.classList.remove(
-    "running"
+    "spinning"
   );
   status.textContent =
-    "🎉 Bộ số đã được chốt!";
+    "🎉 Mèo đã nhả đủ số!";
   button.disabled = false;
+  busy = false;
+  result.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 }
-/* ==================================================
+/* =====================================================
+   WAIT
+   ===================================================== */
+function wait(ms) {
+  return new Promise(
+    resolve =>
+      setTimeout(resolve,ms)
+  );
+}
+/* =====================================================
    START
-   ================================================== */
+   ===================================================== */
 loadHistory().catch(
   error => {
     console.error(error);
