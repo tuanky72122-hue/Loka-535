@@ -2,680 +2,986 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-  <title>LOKA-535</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07111f">
+
+  <title>LOKA-535 | Number Analysis</title>
+
   <style>
     * {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
-      min-height: 100vh;
       background:
-        radial-gradient(
-          circle at top,
-          #202020 0%,
-          #111 45%,
-          #090909 100%
-        );
-      color: #f5f5f5;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+        radial-gradient(circle at top, #172b46 0%, #07111f 45%, #03070d 100%);
+      color: #f4f7fb;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+        "Segoe UI", sans-serif;
+      min-height: 100vh;
     }
-    .app {
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 28px 18px 40px;
+
+    .container {
+      width: min(720px, 92%);
+      margin: auto;
+      padding: 28px 0 60px;
     }
+
     .header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
-    .logo {
-      font-size: 30px;
-      font-weight: 800;
+
+    .brand {
+      font-size: 13px;
       letter-spacing: 4px;
+      color: #8ea7c5;
+      font-weight: 700;
     }
+
+    h1 {
+      margin: 8px 0 6px;
+      font-size: 30px;
+      letter-spacing: -1px;
+    }
+
     .subtitle {
-      margin-top: 7px;
-      color: #999;
-      font-size: 13px;
-      letter-spacing: 1.5px;
+      color: #8fa0b5;
+      font-size: 14px;
+      line-height: 1.5;
     }
-    .card {
-      background: rgba(255, 255, 255, 0.055);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      border-radius: 22px;
-      padding: 22px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow:
-        0 18px 45px rgba(0, 0, 0, 0.25);
-    }
-    .section-title {
-      font-size: 13px;
-      color: #aaa;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
+
     button {
       width: 100%;
       border: 0;
-      border-radius: 15px;
-      padding: 17px 16px;
-      background: #f5f5f5;
-      color: #111;
+      border-radius: 18px;
+      padding: 17px;
+      margin: 20px 0;
+      background: linear-gradient(135deg, #ffffff, #cbd9e8);
+      color: #07111f;
       font-size: 16px;
       font-weight: 800;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       cursor: pointer;
-      transition: 0.15s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,.3);
     }
+
     button:active {
-      transform: scale(0.98);
+      transform: scale(.98);
     }
-    button:disabled {
-      opacity: 0.55;
-      cursor: default;
+
+    .card {
+      background: rgba(13, 26, 43, .82);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 22px;
+      padding: 20px;
+      margin-top: 16px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 15px 45px rgba(0,0,0,.22);
     }
-    .result {
-      margin-top: 26px;
-    }
-    .main-label {
-      text-align: center;
-      color: #999;
+
+    .card-title {
       font-size: 12px;
-      margin-bottom: 13px;
-      letter-spacing: 0.8px;
+      letter-spacing: 2px;
+      color: #8ea7c5;
+      font-weight: 800;
+      margin-bottom: 16px;
     }
+
     .numbers {
       display: flex;
       justify-content: center;
-      gap: 9px;
+      gap: 10px;
       flex-wrap: wrap;
     }
+
     .number {
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
-      background: #242424;
-      border: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
-      font-weight: 800;
+      background: linear-gradient(145deg, #ffffff, #c9d6e4);
+      color: #07111f;
+      font-size: 18px;
+      font-weight: 900;
+      box-shadow: 0 8px 22px rgba(0,0,0,.3);
     }
-    .special-area {
-      margin-top: 25px;
-      padding-top: 22px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    .special-wrap {
+      margin-top: 22px;
       text-align: center;
     }
+
     .special-label {
-      color: #999;
-      font-size: 12px;
-      letter-spacing: 0.8px;
-      margin-bottom: 12px;
+      color: #8ea7c5;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-bottom: 9px;
+      font-weight: 700;
     }
+
     .special {
-      width: 52px;
-      height: 52px;
-      margin: 0 auto;
+      width: 58px;
+      height: 58px;
+      margin: auto;
       border-radius: 50%;
-      background: #303030;
-      border: 1px solid rgba(255, 255, 255, 0.12);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
+      background: linear-gradient(145deg, #e8c878, #a67b24);
+      color: #fff;
+      font-size: 19px;
+      font-weight: 900;
+      box-shadow: 0 8px 25px rgba(166,123,36,.3);
+    }
+
+    .reason {
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 16px 0;
+    }
+
+    .reason:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .reason-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 11px;
+    }
+
+    .mini-number {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 800;
     }
-    .empty {
-      text-align: center;
-      color: #666;
-      font-size: 13px;
-      margin-top: 25px;
+
+    .reason-name {
+      font-weight: 800;
+      font-size: 15px;
     }
-    .info-card {
-      margin-top: 16px;
+
+    .reason-sub {
+      color: #7f92a9;
+      font-size: 12px;
+      margin-top: 3px;
     }
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 11px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
     }
-    .info-row:last-child {
-      border-bottom: 0;
+
+    .stat {
+      background: rgba(255,255,255,.045);
+      border-radius: 12px;
+      padding: 10px;
     }
-    .info-name {
-      color: #999;
-      font-size: 13px;
+
+    .stat-label {
+      color: #74879d;
+      font-size: 10px;
+      margin-bottom: 5px;
     }
-    .info-value {
-      color: #eee;
-      font-size: 13px;
-      text-align: right;
-      font-weight: 600;
+
+    .stat-value {
+      font-size: 14px;
+      font-weight: 800;
     }
-    .about {
-      margin-top: 16px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.035);
-      border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+
+    .explanation {
+      color: #b8c5d4;
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 10px;
     }
-    .about-title {
+
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .model-item {
+      background: rgba(255,255,255,.045);
+      padding: 13px;
+      border-radius: 14px;
+    }
+
+    .model-label {
+      color: #71859d;
+      font-size: 10px;
+      margin-bottom: 5px;
+    }
+
+    .model-value {
       font-size: 14px;
       font-weight: 700;
-      margin-bottom: 10px;
     }
-    .about p {
-      margin: 0;
-      color: #999;
+
+    .note {
+      color: #8394a8;
       font-size: 12px;
-      line-height: 1.7;
+      line-height: 1.65;
     }
-    .warning {
-      margin-top: 12px;
-      color: #777;
-      font-size: 11px;
-      line-height: 1.6;
-    }
-    .footer {
-      margin-top: 24px;
+
+    .status {
       text-align: center;
-      color: #555;
+      color: #70849b;
       font-size: 11px;
-      line-height: 1.6;
+      margin-top: 18px;
     }
+
     .hidden {
       display: none;
     }
+
+    @media (max-width: 480px) {
+      .container {
+        width: 94%;
+        padding-top: 22px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .number {
+        width: 49px;
+        height: 49px;
+        font-size: 16px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <main class="app">
-    <header class="header">
-      <div class="logo">LOKA-535</div>
-      <div class="subtitle">
-        LOTTO 5/35 · NUMBER REFERENCE SYSTEM
+
+<div class="container">
+
+  <div class="header">
+    <div class="brand">LOKA-535</div>
+    <h1>NUMBER ANALYSIS</h1>
+    <div class="subtitle">
+      Bộ số tham chiếu được chọn từ dữ liệu lịch sử<br>
+      và weighted random (ngẫu nhiên có trọng số).
+    </div>
+  </div>
+
+  <button onclick="generatePrediction()">
+    PHÂN TÍCH & CHỌN BỘ SỐ
+  </button>
+
+  <div id="result" class="hidden">
+
+    <div class="card">
+      <div class="card-title">BỘ SỐ THAM CHIẾU</div>
+
+      <div id="mainNumbers" class="numbers"></div>
+
+      <div class="special-wrap">
+        <div class="special-label">SỐ ĐẶC BIỆT</div>
+        <div id="specialNumber" class="special">--</div>
       </div>
-    </header>
-    <section class="card">
-      <div class="section-title">
-        Bộ số tham chiếu
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        VÌ SAO HỆ THỐNG CHỌN NHỮNG SỐ NÀY?
       </div>
-      <button
-        id="generateButton"
-        onclick="generatePrediction()"
-      >
-        LẤY BỘ SỐ
-      </button>
-      <div
-        id="result"
-        class="result hidden"
-      >
-        <div class="main-label">
-          5 SỐ CHÍNH
+
+      <div id="reasons"></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        PHÂN TÍCH SỐ ĐẶC BIỆT
+      </div>
+
+      <div id="specialReason"></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        CẤU TRÚC MÔ HÌNH
+      </div>
+
+      <div class="model-grid">
+
+        <div class="model-item">
+          <div class="model-label">DỮ LIỆU</div>
+          <div id="dataCount" class="model-value">--</div>
         </div>
-        <div
-          id="numbers"
-          class="numbers"
-        ></div>
-        <div class="special-area">
-          <div class="special-label">
-            SỐ ĐẶC BIỆT
+
+        <div class="model-item">
+          <div class="model-label">CỬA SỔ NGẮN</div>
+          <div class="model-value">50 kỳ</div>
+        </div>
+
+        <div class="model-item">
+          <div class="model-label">CỬA SỔ DÀI</div>
+          <div class="model-value">100 kỳ</div>
+        </div>
+
+        <div class="model-item">
+          <div class="model-label">TRỌNG SỐ</div>
+          <div class="model-value">50% / 50%</div>
+        </div>
+
+        <div class="model-item">
+          <div class="model-label">CÁCH CHỌN</div>
+          <div class="model-value">Weighted Random</div>
+        </div>
+
+        <div class="model-item">
+          <div class="model-label">PHẠM VI</div>
+          <div class="model-value">1–35</div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        LƯU Ý VỀ MÔ HÌNH
+      </div>
+
+      <div class="note">
+        Hệ thống không khẳng định số nào chắc chắn xuất hiện.
+        Tần suất lịch sử chỉ được dùng để điều chỉnh trọng số lựa chọn.
+        Sau đó hệ thống vẫn sử dụng ngẫu nhiên có trọng số để tạo ra
+        một bộ số duy nhất.
+        <br><br>
+        Vì vậy, một số có trọng số cao vẫn có thể không được chọn,
+        và một số có trọng số thấp vẫn có thể xuất hiện.
+        Kết quả xổ số thực tế vẫn là một quá trình ngẫu nhiên.
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="status" class="status">
+    Đang tải dữ liệu...
+  </div>
+
+</div>
+
+
+<script>
+
+const SHORT_WINDOW = 50;
+const LONG_WINDOW = 100;
+
+const SHORT_WEIGHT = 0.50;
+const LONG_WEIGHT = 0.50;
+
+
+let history = [];
+
+
+async function loadHistory() {
+
+  const url = "history.json?ts=" + Date.now();
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("Không thể tải history.json");
+  }
+
+  history = await response.json();
+
+  history.sort((a, b) => a.id - b.id);
+
+  document.getElementById("status").textContent =
+    "Đã tải " + history.length + " kỳ dữ liệu.";
+}
+
+
+function calculateFrequency(records, maxNumber, isSpecial = false) {
+
+  const frequency = {};
+
+  for (let number = 1; number <= maxNumber; number++) {
+    frequency[number] = 0;
+  }
+
+  for (const record of records) {
+
+    if (isSpecial) {
+
+      if (
+        record.special !== undefined &&
+        frequency[record.special] !== undefined
+      ) {
+        frequency[record.special]++;
+      }
+
+    } else {
+
+      for (const number of record.numbers) {
+
+        if (frequency[number] !== undefined) {
+          frequency[number]++;
+        }
+
+      }
+
+    }
+  }
+
+  return frequency;
+}
+
+
+function buildWeights(frequency, window, maxNumber, numbersPerDraw) {
+
+  const expected =
+    window * numbersPerDraw / maxNumber;
+
+  const weights = {};
+
+  for (let number = 1; number <= maxNumber; number++) {
+
+    weights[number] = Math.max(
+      frequency[number] / expected,
+      0.01
+    );
+
+  }
+
+  return weights;
+}
+
+
+function blendWeights(shortWeights, longWeights, maxNumber) {
+
+  const result = {};
+
+  for (let number = 1; number <= maxNumber; number++) {
+
+    result[number] =
+      SHORT_WEIGHT * shortWeights[number] +
+      LONG_WEIGHT * longWeights[number];
+
+  }
+
+  return result;
+}
+
+
+function secureRandom() {
+
+  const array = new Uint32Array(1);
+
+  crypto.getRandomValues(array);
+
+  return array[0] / 4294967296;
+}
+
+
+function weightedSample(weights, count) {
+
+  const available = { ...weights };
+
+  const selected = [];
+
+  while (selected.length < count) {
+
+    let totalWeight = 0;
+
+    for (const number in available) {
+      totalWeight += available[number];
+    }
+
+    const randomValue =
+      secureRandom() * totalWeight;
+
+    let cumulative = 0;
+
+    for (const number in available) {
+
+      cumulative += available[number];
+
+      if (randomValue <= cumulative) {
+
+        selected.push(Number(number));
+
+        delete available[number];
+
+        break;
+      }
+
+    }
+
+  }
+
+  return selected.sort((a, b) => a - b);
+}
+
+
+function getReasonText(
+  number,
+  shortFrequency,
+  longFrequency,
+  finalWeight,
+  shortWindow,
+  longWindow
+) {
+
+  const shortExpected =
+    shortWindow * 5 / 35;
+
+  const longExpected =
+    longWindow * 5 / 35;
+
+  const shortRatio =
+    shortFrequency[number] / shortExpected;
+
+  const longRatio =
+    longFrequency[number] / longExpected;
+
+  let trend = "";
+
+  if (shortRatio > longRatio * 1.15) {
+
+    trend =
+      "Tần suất 50 kỳ gần đây đang cao hơn tương đối so với giai đoạn 100 kỳ.";
+
+  } else if (shortRatio < longRatio * 0.85) {
+
+    trend =
+      "Tần suất 50 kỳ gần đây đang thấp hơn tương đối so với giai đoạn 100 kỳ.";
+
+  } else {
+
+    trend =
+      "Tần suất 50 kỳ gần đây tương đối ổn định so với nền 100 kỳ.";
+
+  }
+
+  return trend;
+}
+
+
+function createReasonCard(
+  number,
+  shortFrequency,
+  longFrequency,
+  finalWeight
+) {
+
+  const explanation = getReasonText(
+    number,
+    shortFrequency,
+    longFrequency,
+    finalWeight,
+    SHORT_WINDOW,
+    LONG_WINDOW
+  );
+
+  return `
+    <div class="reason">
+
+      <div class="reason-head">
+
+        <div class="mini-number">
+          ${String(number).padStart(2, "0")}
+        </div>
+
+        <div>
+          <div class="reason-name">
+            Số ${String(number).padStart(2, "0")}
           </div>
-          <div
-            id="special"
-            class="special"
-          ></div>
+
+          <div class="reason-sub">
+            Trọng số cuối: ${finalWeight.toFixed(2)}
+          </div>
         </div>
+
       </div>
-      <div
-        id="error"
-        class="empty hidden"
-      ></div>
-    </section>
-    <section class="card info-card">
-      <div class="section-title">
-        Mô hình
+
+      <div class="stats">
+
+        <div class="stat">
+          <div class="stat-label">
+            50 KỲ
+          </div>
+          <div class="stat-value">
+            ${shortFrequency[number]} lần
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">
+            100 KỲ
+          </div>
+          <div class="stat-value">
+            ${longFrequency[number]} lần
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">
+            TỶ TRỌNG
+          </div>
+          <div class="stat-value">
+            ${(finalWeight * 100).toFixed(1)}%
+          </div>
+        </div>
+
       </div>
-      <div class="info-row">
-        <span class="info-name">
-          Dữ liệu
-        </span>
-        <span
-          id="dataCount"
-          class="info-value"
-        >
-          Đang tải...
-        </span>
+
+      <div class="explanation">
+        ${explanation}
+        <br>
+        Số này không được chọn vì một quy tắc cố định.
+        Nó được đưa vào quá trình weighted random dựa trên
+        trọng số thống kê hiện tại.
       </div>
-      <div class="info-row">
-        <span class="info-name">
-          Cửa sổ ngắn
-        </span>
-        <span class="info-value">
-          50 kỳ
-        </span>
+
+    </div>
+  `;
+}
+
+
+function createSpecialReason(
+  number,
+  shortFrequency,
+  longFrequency,
+  finalWeight
+) {
+
+  const shortExpected =
+    SHORT_WINDOW / 12;
+
+  const longExpected =
+    LONG_WINDOW / 12;
+
+  const shortRatio =
+    shortFrequency[number] / shortExpected;
+
+  const longRatio =
+    longFrequency[number] / longExpected;
+
+  let trend = "";
+
+  if (shortRatio > longRatio * 1.15) {
+
+    trend =
+      "Tần suất gần đây cao hơn tương đối so với nền dài hạn.";
+
+  } else if (shortRatio < longRatio * 0.85) {
+
+    trend =
+      "Tần suất gần đây thấp hơn tương đối so với nền dài hạn.";
+
+  } else {
+
+    trend =
+      "Tần suất gần đây tương đối ổn định so với nền dài hạn.";
+
+  }
+
+  return `
+
+    <div class="reason">
+
+      <div class="reason-head">
+
+        <div class="mini-number">
+          ${String(number).padStart(2, "0")}
+        </div>
+
+        <div>
+          <div class="reason-name">
+            Số đặc biệt ${String(number).padStart(2, "0")}
+          </div>
+
+          <div class="reason-sub">
+            Trọng số cuối: ${finalWeight.toFixed(2)}
+          </div>
+        </div>
+
       </div>
-      <div class="info-row">
-        <span class="info-name">
-          Cửa sổ dài
-        </span>
-        <span class="info-value">
-          100 kỳ
-        </span>
+
+      <div class="stats">
+
+        <div class="stat">
+          <div class="stat-label">
+            50 KỲ
+          </div>
+          <div class="stat-value">
+            ${shortFrequency[number]} lần
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">
+            100 KỲ
+          </div>
+          <div class="stat-value">
+            ${longFrequency[number]} lần
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">
+            TRỌNG SỐ
+          </div>
+          <div class="stat-value">
+            ${finalWeight.toFixed(2)}
+          </div>
+        </div>
+
       </div>
-      <div class="info-row">
-        <span class="info-name">
-          Trọng số
-        </span>
-        <span class="info-value">
-          50% / 50%
-        </span>
+
+      <div class="explanation">
+        ${trend}
+        <br>
+        Sau khi tính trọng số từ 50 và 100 kỳ,
+        hệ thống dùng weighted random để chọn một số đặc biệt.
       </div>
-      <div class="info-row">
-        <span class="info-name">
-          Phương pháp
-        </span>
-        <span class="info-value">
-          Weighted Random
-        </span>
-      </div>
-    </section>
-    <section class="about">
-      <div class="about-title">
-        Loka-535 hoạt động như thế nào?
-      </div>
-      <p>
-        Hệ thống phân tích tần suất xuất hiện của các số
-        trong 50 kỳ gần nhất và 100 kỳ gần nhất.
-        Hai nguồn dữ liệu được kết hợp theo tỷ trọng
-        50% / 50%.
-      </p>
-      <br>
-      <p>
-        Sau đó, Weighted Random (ngẫu nhiên có trọng số)
-        được sử dụng để chọn 5 số chính từ 1 đến 35
-        và 1 số đặc biệt từ 1 đến 12.
-      </p>
-      <div class="warning">
-        Bộ số chỉ mang tính tham chiếu dựa trên dữ liệu
-        lịch sử. Xổ số vẫn là một quá trình ngẫu nhiên,
-        vì vậy hệ thống không đảm bảo kết quả trúng thưởng.
-      </div>
-    </section>
-    <footer class="footer">
-      LOKA-535<br>
-      Personal Lotto 5/35 Reference Tool
-    </footer>
-  </main>
-  <script>
-    const SHORT_WINDOW = 50;
-    const LONG_WINDOW = 100;
-    const SHORT_WEIGHT = 0.50;
-    const LONG_WEIGHT = 0.50;
-    async function loadHistory() {
-      const response = await fetch(
-        "history.json?ts=" + Date.now()
-      );
-      if (!response.ok) {
-        throw new Error(
-          "Không thể đọc history.json"
-        );
-      }
-      return await response.json();
-    }
-    function calculateMainFrequency(
-      history,
-      window
-    ) {
-      const recent =
-        history.slice(-window);
-      const frequency = {};
-      for (
-        let number = 1;
-        number <= 35;
-        number++
-      ) {
-        frequency[number] = 0;
-      }
-      for (const record of recent) {
-        if (
-          !Array.isArray(record.numbers)
-        ) {
-          continue;
-        }
-        for (const number of record.numbers) {
-          if (
-            number >= 1 &&
-            number <= 35
-          ) {
-            frequency[number]++;
-          }
-        }
-      }
-      return frequency;
-    }
-    function calculateSpecialFrequency(
-      history,
-      window
-    ) {
-      const recent =
-        history.slice(-window);
-      const frequency = {};
-      for (
-        let number = 1;
-        number <= 12;
-        number++
-      ) {
-        frequency[number] = 0;
-      }
-      for (const record of recent) {
-        const special =
-          Number(record.special);
-        if (
-          Number.isInteger(special) &&
-          special >= 1 &&
-          special <= 12
-        ) {
-          frequency[special]++;
-        }
-      }
-      return frequency;
-    }
-    function buildWeights(
-      frequency,
-      window,
-      maxNumber,
-      numbersPerDraw
-    ) {
-      const expected =
-        window *
-        numbersPerDraw /
-        maxNumber;
-      const weights = {};
-      for (
-        let number = 1;
-        number <= maxNumber;
-        number++
-      ) {
-        weights[number] =
-          Math.max(
-            frequency[number] / expected,
-            0.01
-          );
-      }
-      return weights;
-    }
-    function blendWeights(
+
+    </div>
+
+  `;
+}
+
+
+function generatePrediction() {
+
+  if (history.length < LONG_WINDOW) {
+
+    alert(
+      "Không đủ dữ liệu để phân tích. Cần ít nhất " +
+      LONG_WINDOW +
+      " kỳ."
+    );
+
+    return;
+  }
+
+
+  const shortHistory =
+    history.slice(-SHORT_WINDOW);
+
+  const longHistory =
+    history.slice(-LONG_WINDOW);
+
+
+  /* =========================
+     MAIN NUMBERS
+     ========================= */
+
+  const shortFrequency =
+    calculateFrequency(
+      shortHistory,
+      35,
+      false
+    );
+
+  const longFrequency =
+    calculateFrequency(
+      longHistory,
+      35,
+      false
+    );
+
+
+  const shortWeights =
+    buildWeights(
+      shortFrequency,
+      SHORT_WINDOW,
+      35,
+      5
+    );
+
+  const longWeights =
+    buildWeights(
+      longFrequency,
+      LONG_WINDOW,
+      35,
+      5
+    );
+
+
+  const finalWeights =
+    blendWeights(
       shortWeights,
       longWeights,
-      maxNumber
-    ) {
-      const weights = {};
-      for (
-        let number = 1;
-        number <= maxNumber;
-        number++
-      ) {
-        weights[number] =
-          SHORT_WEIGHT *
-          shortWeights[number] +
-          LONG_WEIGHT *
-          longWeights[number];
-      }
-      return weights;
-    }
-    function secureRandom() {
-      const array =
-        new Uint32Array(1);
-      crypto.getRandomValues(array);
-      return (
-        array[0] /
-        4294967296
-      );
-    }
-    function weightedSample(
-      weights,
-      count
-    ) {
-      const available = {
-        ...weights
-      };
-      const selected = [];
-      while (
-        selected.length < count
-      ) {
-        let totalWeight = 0;
-        for (
-          const number in available
-        ) {
-          totalWeight +=
-            available[number];
-        }
-        const randomValue =
-          secureRandom() *
-          totalWeight;
-        let cumulative = 0;
-        for (
-          const number in available
-        ) {
-          cumulative +=
-            available[number];
-          if (
-            randomValue <= cumulative
-          ) {
-            selected.push(
-              Number(number)
-            );
-            delete available[number];
-            break;
-          }
-        }
-      }
-      return selected.sort(
-        (a, b) => a - b
-      );
-    }
-    async function generatePrediction() {
-      const button =
-        document.getElementById(
-          "generateButton"
-        );
-      const result =
-        document.getElementById(
-          "result"
-        );
-      const numbers =
-        document.getElementById(
-          "numbers"
-        );
-      const special =
-        document.getElementById(
-          "special"
-        );
-      const error =
-        document.getElementById(
-          "error"
-        );
-      button.disabled = true;
-      button.textContent =
-        "ĐANG PHÂN TÍCH...";
-      result.classList.add(
-        "hidden"
-      );
-      error.classList.add(
-        "hidden"
-      );
-      try {
-        const history =
-          await loadHistory();
-        if (
-          history.length <
-          LONG_WINDOW
-        ) {
-          throw new Error(
-            "Không đủ dữ liệu để tạo bộ số."
-          );
-        }
-        /*
-         * =========================
-         * 5 SỐ CHÍNH
-         * =========================
-         */
-        const shortMainFrequency =
-          calculateMainFrequency(
-            history,
-            SHORT_WINDOW
-          );
-        const longMainFrequency =
-          calculateMainFrequency(
-            history,
-            LONG_WINDOW
-          );
-        const shortMainWeights =
-          buildWeights(
-            shortMainFrequency,
-            SHORT_WINDOW,
-            35,
-            5
-          );
-        const longMainWeights =
-          buildWeights(
-            longMainFrequency,
-            LONG_WINDOW,
-            35,
-            5
-          );
-        const finalMainWeights =
-          blendWeights(
-            shortMainWeights,
-            longMainWeights,
-            35
-          );
-        const prediction =
-          weightedSample(
-            finalMainWeights,
-            5
-          );
-        /*
-         * =========================
-         * SỐ ĐẶC BIỆT
-         * =========================
-         */
-        const shortSpecialFrequency =
-          calculateSpecialFrequency(
-            history,
-            SHORT_WINDOW
-          );
-        const longSpecialFrequency =
-          calculateSpecialFrequency(
-            history,
-            LONG_WINDOW
-          );
-        const shortSpecialWeights =
-          buildWeights(
-            shortSpecialFrequency,
-            SHORT_WINDOW,
-            12,
-            1
-          );
-        const longSpecialWeights =
-          buildWeights(
-            longSpecialFrequency,
-            LONG_WINDOW,
-            12,
-            1
-          );
-        const finalSpecialWeights =
-          blendWeights(
-            shortSpecialWeights,
-            longSpecialWeights,
-            12
-          );
-        const specialPrediction =
-          weightedSample(
-            finalSpecialWeights,
-            1
-          );
-        /*
-         * =========================
-         * HIỂN THỊ
-         * =========================
-         */
-        numbers.innerHTML = "";
-        for (
-          const number of prediction
-        ) {
-          const element =
-            document.createElement(
-              "div"
-            );
-          element.className =
-            "number";
-          element.textContent =
-            String(number)
-              .padStart(2, "0");
-          numbers.appendChild(
-            element
-          );
-        }
-        special.textContent =
-          String(
-            specialPrediction[0]
-          ).padStart(2, "0");
-        document.getElementById(
-          "dataCount"
-        ).textContent =
-          history.length + " kỳ";
-        result.classList.remove(
-          "hidden"
-        );
-      } catch (err) {
-        error.textContent =
-          err.message;
-        error.classList.remove(
-          "hidden"
-        );
-      }
-      button.disabled = false;
-      button.textContent =
-        "LẤY BỘ SỐ";
-    }
-    /*
-     * Hiển thị số lượng dữ liệu
-     * ngay khi mở trang.
-     */
-    async function loadDataInfo() {
-      try {
-        const history =
-          await loadHistory();
-        document.getElementById(
-          "dataCount"
-        ).textContent =
-          history.length + " kỳ";
-      } catch (err) {
-        document.getElementById(
-          "dataCount"
-        ).textContent =
-          "Không tải được";
-      }
-    }
-    loadDataInfo();
-  </script>
+      35
+    );
+
+
+  const prediction =
+    weightedSample(
+      finalWeights,
+      5
+    );
+
+
+  /* =========================
+     SPECIAL NUMBER
+     ========================= */
+
+  const shortSpecialFrequency =
+    calculateFrequency(
+      shortHistory,
+      12,
+      true
+    );
+
+  const longSpecialFrequency =
+    calculateFrequency(
+      longHistory,
+      12,
+      true
+    );
+
+
+  const shortSpecialWeights =
+    buildWeights(
+      shortSpecialFrequency,
+      SHORT_WINDOW,
+      12,
+      1
+    );
+
+  const longSpecialWeights =
+    buildWeights(
+      longSpecialFrequency,
+      LONG_WINDOW,
+      12,
+      1
+    );
+
+
+  const finalSpecialWeights =
+    blendWeights(
+      shortSpecialWeights,
+      longSpecialWeights,
+      12
+    );
+
+
+  const specialPrediction =
+    weightedSample(
+      finalSpecialWeights,
+      1
+    )[0];
+
+
+  /* =========================
+     DISPLAY MAIN NUMBERS
+     ========================= */
+
+  document.getElementById(
+    "mainNumbers"
+  ).innerHTML = prediction.map(number => {
+
+    return `
+      <div class="number">
+        ${String(number).padStart(2, "0")}
+      </div>
+    `;
+
+  }).join("");
+
+
+  document.getElementById(
+    "specialNumber"
+  ).textContent =
+    String(specialPrediction).padStart(2, "0");
+
+
+  /* =========================
+     DISPLAY REASONS
+     ========================= */
+
+  document.getElementById(
+    "reasons"
+  ).innerHTML = prediction.map(number => {
+
+    return createReasonCard(
+      number,
+      shortFrequency,
+      longFrequency,
+      finalWeights[number]
+    );
+
+  }).join("");
+
+
+  document.getElementById(
+    "specialReason"
+  ).innerHTML =
+    createSpecialReason(
+      specialPrediction,
+      shortSpecialFrequency,
+      longSpecialFrequency,
+      finalSpecialWeights[specialPrediction]
+    );
+
+
+  document.getElementById(
+    "dataCount"
+  ).textContent =
+    history.length + " kỳ";
+
+
+  document.getElementById(
+    "result"
+  ).classList.remove("hidden");
+
+
+  document.getElementById(
+    "status"
+  ).textContent =
+    "Phân tích hoàn tất • Dữ liệu mới nhất: kỳ " +
+    history[history.length - 1].id;
+}
+
+
+loadHistory().catch(error => {
+
+  console.error(error);
+
+  document.getElementById(
+    "status"
+  ).textContent =
+    "Không thể tải dữ liệu lịch sử.";
+
+});
+
+</script>
+
 </body>
 </html>
