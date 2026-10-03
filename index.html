@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>LOKA-535</title>
-
   <style>
     body {
       margin: 0;
@@ -17,25 +15,21 @@
       color: white;
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
-
     .container {
       width: 90%;
       max-width: 420px;
       text-align: center;
     }
-
     h1 {
       margin-bottom: 8px;
       font-size: 32px;
       letter-spacing: 2px;
     }
-
     .subtitle {
       color: #999;
       margin-bottom: 40px;
       font-size: 15px;
     }
-
     button {
       width: 100%;
       padding: 18px;
@@ -47,11 +41,12 @@
       font-weight: 700;
       cursor: pointer;
     }
-
     button:active {
       transform: scale(0.98);
     }
-
+    button:disabled {
+      opacity: 0.6;
+    }
     .numbers {
       margin-top: 35px;
       display: flex;
@@ -59,7 +54,6 @@
       gap: 10px;
       flex-wrap: wrap;
     }
-
     .number {
       width: 52px;
       height: 52px;
@@ -71,7 +65,24 @@
       font-size: 19px;
       font-weight: 700;
     }
-
+    .special-title {
+      margin-top: 30px;
+      color: #999;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    .special {
+      margin: 12px auto 0;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 19px;
+      font-weight: 700;
+    }
     .info {
       margin-top: 25px;
       color: #777;
@@ -80,272 +91,260 @@
     }
   </style>
 </head>
-
 <body>
-
   <div class="container">
-
     <h1>LOKA-535</h1>
-
     <div class="subtitle">
       LOTTO 5/35
     </div>
-
     <button onclick="generatePrediction()">
       LẤY BỘ SỐ
     </button>
-
     <div id="numbers" class="numbers"></div>
-
+    <div id="specialTitle" class="special-title" style="display: none;">
+      SỐ ĐẶC BIỆT
+    </div>
+    <div id="special" class="special" style="display: none;"></div>
     <div class="info">
       50 kỳ + 100 kỳ · Blend 50/50<br>
       Weighted Random
     </div>
-
   </div>
-
   <script>
-
     const SHORT_WINDOW = 50;
     const LONG_WINDOW = 100;
-
     const SHORT_WEIGHT = 0.50;
     const LONG_WEIGHT = 0.50;
-
-
     async function loadHistory() {
-
       const response = await fetch(
         "history.json?ts=" + Date.now()
       );
-
       if (!response.ok) {
         throw new Error("Không thể đọc history.json");
       }
-
       return await response.json();
     }
-
-
-    function calculateFrequency(history, window) {
-
+    function calculateMainFrequency(history, window) {
       const recent = history.slice(-window);
-
       const frequency = {};
-
       for (let number = 1; number <= 35; number++) {
         frequency[number] = 0;
       }
-
       for (const record of recent) {
-
         for (const number of record.numbers) {
           frequency[number]++;
         }
-
       }
-
       return frequency;
     }
-
-
-    function buildWeights(frequency, window) {
-
-      const expected = window * 5 / 35;
-
+    function calculateSpecialFrequency(history, window) {
+      const recent = history.slice(-window);
+      const frequency = {};
+      for (let number = 1; number <= 12; number++) {
+        frequency[number] = 0;
+      }
+      for (const record of recent) {
+        if (
+          Number.isInteger(record.special) &&
+          record.special >= 1 &&
+          record.special <= 12
+        ) {
+          frequency[record.special]++;
+        }
+      }
+      return frequency;
+    }
+    function buildWeights(
+      frequency,
+      window,
+      maxNumber
+    ) {
+      const expected =
+        window * 1 / maxNumber;
       const weights = {};
-
-      for (let number = 1; number <= 35; number++) {
-
+      for (let number = 1; number <= maxNumber; number++) {
         weights[number] = Math.max(
           frequency[number] / expected,
           0.01
         );
-
       }
-
       return weights;
     }
-
-
-    function blendWeights(shortWeights, longWeights) {
-
+    function blendWeights(
+      shortWeights,
+      longWeights,
+      maxNumber
+    ) {
       const weights = {};
-
-      for (let number = 1; number <= 35; number++) {
-
+      for (let number = 1; number <= maxNumber; number++) {
         weights[number] =
           SHORT_WEIGHT * shortWeights[number] +
           LONG_WEIGHT * longWeights[number];
-
       }
-
       return weights;
     }
-
-
     function secureRandom() {
-
       const array = new Uint32Array(1);
-
       crypto.getRandomValues(array);
-
       return array[0] / 4294967296;
     }
-
-
-    function weightedSample(weights) {
-
+    function weightedSample(
+      weights,
+      count
+    ) {
       const available = {
         ...weights
       };
-
       const selected = [];
-
-
-      while (selected.length < 5) {
-
+      while (selected.length < count) {
         let totalWeight = 0;
-
         for (const number in available) {
           totalWeight += available[number];
         }
-
-
         const randomValue =
           secureRandom() * totalWeight;
-
-
         let cumulative = 0;
-
-
         for (const number in available) {
-
           cumulative += available[number];
-
-
           if (randomValue <= cumulative) {
-
             selected.push(
               Number(number)
             );
-
             delete available[number];
-
             break;
           }
-
         }
-
       }
-
-
       return selected.sort(
         (a, b) => a - b
       );
     }
-
-
     async function generatePrediction() {
-
       const button =
         document.querySelector("button");
-
       const numbers =
         document.getElementById("numbers");
-
-
+      const specialTitle =
+        document.getElementById("specialTitle");
+      const special =
+        document.getElementById("special");
       button.disabled = true;
-
       button.textContent = "ĐANG TÍNH...";
-
       numbers.innerHTML = "";
-
-
+      specialTitle.style.display = "none";
+      special.style.display = "none";
       try {
-
         const history =
           await loadHistory();
-
-
         if (history.length < LONG_WINDOW) {
-
           throw new Error(
             "Không đủ dữ liệu."
           );
-
         }
-
-
-        const shortFrequency =
-          calculateFrequency(
+        /*
+         * =========================
+         * 5 SỐ CHÍNH 1-35
+         * =========================
+         */
+        const shortMainFrequency =
+          calculateMainFrequency(
             history,
             SHORT_WINDOW
           );
-
-
-        const longFrequency =
-          calculateFrequency(
+        const longMainFrequency =
+          calculateMainFrequency(
             history,
             LONG_WINDOW
           );
-
-
-        const shortWeights =
+        const shortMainWeights =
           buildWeights(
-            shortFrequency,
-            SHORT_WINDOW
+            shortMainFrequency,
+            SHORT_WINDOW,
+            35
           );
-
-
-        const longWeights =
+        const longMainWeights =
           buildWeights(
-            longFrequency,
-            LONG_WINDOW
+            longMainFrequency,
+            LONG_WINDOW,
+            35
           );
-
-
-        const finalWeights =
+        const finalMainWeights =
           blendWeights(
-            shortWeights,
-            longWeights
+            shortMainWeights,
+            longMainWeights,
+            35
           );
-
-
         const prediction =
           weightedSample(
-            finalWeights
+            finalMainWeights,
+            5
           );
-
-
+        /*
+         * =========================
+         * SỐ ĐẶC BIỆT 1-12
+         * =========================
+         */
+        const shortSpecialFrequency =
+          calculateSpecialFrequency(
+            history,
+            SHORT_WINDOW
+          );
+        const longSpecialFrequency =
+          calculateSpecialFrequency(
+            history,
+            LONG_WINDOW
+          );
+        const shortSpecialWeights =
+          buildWeights(
+            shortSpecialFrequency,
+            SHORT_WINDOW,
+            12
+          );
+        const longSpecialWeights =
+          buildWeights(
+            longSpecialFrequency,
+            LONG_WINDOW,
+            12
+          );
+        const finalSpecialWeights =
+          blendWeights(
+            shortSpecialWeights,
+            longSpecialWeights,
+            12
+          );
+        const specialPrediction =
+          weightedSample(
+            finalSpecialWeights,
+            1
+          );
+        /*
+         * =========================
+         * HIỂN THỊ
+         * =========================
+         */
         for (const number of prediction) {
-
           const element =
             document.createElement("div");
-
           element.className = "number";
-
           element.textContent =
             String(number).padStart(2, "0");
-
           numbers.appendChild(element);
-
         }
-
+        specialTitle.style.display =
+          "block";
+        special.style.display =
+          "flex";
+        special.textContent =
+          String(specialPrediction[0])
+            .padStart(2, "0");
       } catch (error) {
-
         numbers.textContent =
           "Lỗi: " + error.message;
-
       }
-
-
       button.disabled = false;
-
-      button.textContent = "LẤY BỘ SỐ";
+      button.textContent =
+        "LẤY BỘ SỐ";
     }
-
   </script>
-
 </body>
 </html>
